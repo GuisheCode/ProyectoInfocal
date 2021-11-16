@@ -1,0 +1,45 @@
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(255, 255, 255);
+  margin-left: -32px;
+  margin-right: -16px;
+  padding-right: 150px;
+}
+
+.lista {
+  float: left;
+}
+
+.lista a{
+  display: block;
+  color: rgb(95, 95, 95);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 23px;
+}
+.tituloLista {
+  display: block;
+  color: rgb(95, 95, 95);
+  padding: 10px 16px;
+  font-size: 23px;
+  text-align: center;
+}
+
+.lista a:hover:not(.active) {
+  background-color: rgb(49, 180, 231);
+}
+
+.navActive {
+  background-color: rgb(49, 180, 231);
+}
+.fecha{
+  display: block;
+  color: rgb(95, 95, 95);
+  text-align: center;
+  padding: 14px 16px;
+  font-size: 23px;
+}

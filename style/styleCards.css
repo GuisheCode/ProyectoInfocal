@@ -1,0 +1,526 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
+/* m */
+
+/* tarjetas neutrales
+Define numero de columnas */
+.columna {
+	float: left;
+	width: 25%;
+	padding: 0 5px;
+	padding-bottom: 15px;
+	/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
+}
+
+/* Remove extra left and right margins, due to padding */
+.fila {
+	margin: 0 -5px;
+}
+/* Clear floats after the columns */
+.fila:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+/* Columnas responsivas */
+@media screen and (max-width: 600px) {
+	.columna {
+		width: 100%;
+		display: block;
+		margin-bottom: 20px;
+	}
+}
+
+/* Style the counter cards */
+.card {
+	box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.7);
+	/* padding: 16px; */
+	text-align: center;
+	background-color: #b9b5b5;
+	float: left;
+	width: 100%;
+	border-radius: 15px;
+	height: 300px;
+	/* background-image: radial-gradient( circle farthest-corner at 1.3% 2.8%,  rgba(239,249,249,1) 0%, rgba(182,199,226,1) 100.2% ); */
+	/* background-image: linear-gradient( 109.6deg,  rgba(204,228,247,1) 11.2%, rgba(237,246,250,1) 100.2% ); */
+	background-image: linear-gradient(
+		109.6deg,
+		rgba(223, 234, 247, 1) 11.2%,
+		rgba(244, 248, 252, 1) 91.1%
+	);
+}
+.card1 {
+	/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
+	height: 200px;
+	text-align: center;
+	background-color: #b9b5b5;
+	float: left;
+	width: 50%;
+	/* border-radius: 15px; */
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+}
+.card2 {
+	/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
+	height: 200px;
+	text-align: center;
+	background-color: #ce6565;
+	float: left;
+	width: 50%;
+	/* border-radius: 15px; */
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+}
+
+.dentro {
+	/* background: linear-gradient(180deg, #21c8f6, #637bff); */
+	/* background: linear-gradient(180deg, #021b79, #0575e6); */
+	background: radial-gradient(
+		circle farthest-corner at 85.4% 50.8%,
+		#297acc 0%,
+		#00509f 74.2%
+	);
+
+	width: 100%;
+	height: 100px;
+	padding-top: 1px;
+	margin-bottom: 15px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+.dentroOcupado {
+	/* background: linear-gradient(180deg, #21c8f6, #637bff); */
+	/* background: linear-gradient(180deg, #021b79, #0575e6); */
+	background: radial-gradient(
+		circle farthest-corner at 85.4% 50.8%,
+		#f77c2a 0%,
+		#e22b0a 74.2%
+	);
+
+	width: 100%;
+	height: 100px;
+	padding-top: 1px;
+	margin-bottom: 15px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+.columnaDisponible {
+	float: left;
+	width: 15%;
+	padding: 0 5px;
+	padding-bottom: 15px;
+	/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
+}
+/* Remove extra left and right margins, due to padding */
+.filaDisponible {
+	margin: 0 -5px;
+}
+/* Style the counter cards */
+.cardDisponible {
+	box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.7);
+	text-align: center;
+	float: left;
+	width: 100%;
+	border-radius: 15px;
+	height: 150px;
+	background: radial-gradient(
+		circle farthest-corner at 85.4% 50.8%,
+		#25d415 0%,
+		#009f15 74.2%
+	);
+}
+.dentroDisponible {
+	width: 100%;
+	height: 100px;
+	padding-top: 1px;
+	margin-bottom: 15px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+.tituloTarjetaDisponible {
+	font-family: "Roboto", sans-serif;
+	font-weight: 200;
+	font-size: 19px;
+	color: white;
+	text-align: center;
+}
+.iconoTarjetaDisponible {
+	/* float: left; */
+	padding-top: 25px;
+	font-size: 50px;
+	color: rgb(255, 255, 255);
+	text-align: center;
+}
+.tituloTarjeta {
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 22px;
+	color: white;
+	text-align: justify;
+}
+.subTarjeta {
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 17px;
+	text-align: justify;
+	padding-left: 20px;
+	padding-bottom: 7px;
+}
+.subtituloTarjeta {
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 17px;
+	color: white;
+	text-align: initial;
+}
+.tituloDocente {
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 28px;
+}
+hr {
+	border: 2px solid rgb(182, 182, 182);
+	margin-bottom: 10px;
+}
+.iconoTarjeta {
+	float: left;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: 50px;
+	color: rgb(255, 255, 255);
+}
+@media screen and (max-width: 1280px) {
+	.columna {
+		width: 33%;
+	}
+	.card {
+		width: 100%;
+		height: 240px;
+	}
+	.dentro {
+		width: 100%;
+		height: 100px;
+		padding-top: 1px;
+		border-top-left-radius: 15px;
+		border-top-right-radius: 15px;
+	}
+	.dentroOcupado {
+		/* background: linear-gradient(180deg, #21c8f6, #637bff); */
+		/* background: linear-gradient(180deg, #021b79, #0575e6); */
+		background: radial-gradient(
+			circle farthest-corner at 85.4% 50.8%,
+			#f77c2a 0%,
+			#e22b0a 74.2%
+		);
+	
+		width: 100%;
+		height: 100px;
+		padding-top: 1px;
+		margin-bottom: 15px;
+		border-top-left-radius: 15px;
+		border-top-right-radius: 15px;
+	}
+	.tituloTarjeta {
+		font-weight: 300;
+		font-size: 20px;
+		text-align: justify;
+	}
+	.subTarjeta {
+		font-weight: 300;
+		font-size: 15px;
+		text-align: justify;
+	}
+	.subtituloTarjeta {
+		font-weight: 300;
+		font-size: 15px;
+		text-align: justify;
+	}
+	.tituloDocente {
+		font-family: "Roboto", sans-serif;
+		font-weight: 300;
+		font-size: 25px;
+	}
+	.iconoTarjeta {
+		float: left;
+		padding-left: 10px;
+		padding-right: 10px;
+		font-size: 45px;
+		color: rgb(255, 255, 255);
+	}
+}
+.subTarjeta1 {
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 15px;
+	padding-top: 5px;
+	/* text-align: justify; */
+	padding-left: 20px;
+	/* float: left; */
+}
+.recursos{
+	justify-content: left;
+	padding-top: 5px;
+	text-align: justify;
+}
+
+.outer
+{
+    width:100%;
+    text-align: justify;
+}
+.divBtnRec
+{
+    display: inline-block;
+	margin-top: 2px;
+}
+.divBtnRec>button
+{
+	margin-left: 10px;
+}
+/* Ventana Modal para eliminar recurso */
+.modal-container{
+	background-color: rgba(0, 0, 0, 0.3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+.modal-container.show{
+	opacity: 1;
+	pointer-events: all;
+}
+.modal-content{
+	background-color: white;
+	width: 400px;
+	height: 250px;
+	border-radius: 15px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+}
+.tituloModal{
+padding-top: 15px;
+font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 22px;
+	color: rgb(0, 0, 0);
+}
+#quitarRecurso{
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 18px;
+	height: 35px;
+	width: 60px;
+	border-radius: 8px;
+	color: #ffffff;
+	background-color: #1184F7;
+	border: none;
+	
+}
+#cerrarModal{
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 18px;
+	height: 35px;
+	width: 60px;
+	border-radius: 8px;
+	color: #ffffff;
+	background-color: #1184F7;
+	border: none;
+	
+}
+#cerrarModal:hover {
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+	cursor: pointer;
+}
+#quitarRecurso:hover {
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+	cursor: pointer;
+}
+.botones{
+	padding-top: 50px;
+}
+
+
+#respuesta {
+	padding-top: 15px;
+	font-family: "Roboto", sans-serif;
+		font-weight: 300;
+		font-size: 22px;
+		color: rgb(0, 0, 0);
+}
+
+.modal-container-success{
+	/* background-color: rgba(0, 0, 0, 0.3); */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+.modal-success{
+	background-color: white;
+	width: 320px;
+	height: 180px;
+	border-radius: 15px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+}
+.modal-container-success.show{
+	opacity: 1;
+	pointer-events: all;
+}
+
+
+
+
+
+.modal-container1{
+	background-color: rgba(0, 0, 0, 0.3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+.modal-container1.show{
+	opacity: 1;
+	pointer-events: all;
+}
+.modal-content1{
+	background-color: white;
+	width: 400px;
+	height: 250px;
+	border-radius: 15px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+}
+
+#quitarRecurso1{
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 18px;
+	height: 35px;
+	width: 60px;
+	border-radius: 8px;
+	color: #ffffff;
+	background-color: #1184F7;
+	border: none;
+	
+}
+#cerrarModal1{
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 18px;
+	height: 35px;
+	width: 60px;
+	border-radius: 8px;
+	color: #ffffff;
+	background-color: #1184F7;
+	border: none;
+	
+}
+#cerrarModal1:hover {
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+	cursor: pointer;
+}
+#quitarRecurso1:hover {
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+	cursor: pointer;
+}
+
+
+#respuesta1 {
+	padding-top: 15px;
+	font-family: "Roboto", sans-serif;
+		font-weight: 300;
+		font-size: 22px;
+		color: rgb(0, 0, 0);
+}
+
+.modal-container-success1{
+	/* background-color: rgba(0, 0, 0, 0.3); */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+.modal-success1{
+	background-color: white;
+	width: 320px;
+	height: 180px;
+	border-radius: 15px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+}
+.modal-container-success1.show{
+	opacity: 1;
+	pointer-events: all;
+}
+
+
+
+
+
+
+
+
+/* Ventana modal para agregar recurso */
+#contenedor-agregar-recurso{
+	background-color: rgba(0, 0, 0, 0.3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+#contenedor-agregar-recurso.show{
+	opacity: 1;
+	pointer-events: all;
+}
+.contenido-agregar-recurso{
+	background-color: white;
+	width: 400px;
+	height: 250px;
+	border-radius: 15px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+}
