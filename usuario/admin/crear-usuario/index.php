@@ -30,11 +30,23 @@ if(isset($_POST['submit'])){
     	$error[] = "Please fill out all fields";
     }
 
-    if (! isset($_POST['email'])) {
+    if (! isset($_POST['password'])) {
     	$error[] = "Please fill out all fields";
     }
 
-    if (! isset($_POST['password'])) {
+	if (! isset($_POST['nombre'])) {
+    	$error[] = "Please fill out all fields";
+    }
+
+	if (! isset($_POST['apellidos'])) {
+    	$error[] = "Please fill out all fields";
+    }
+
+	if (! isset($_POST['email'])) {
+    	$error[] = "Please fill out all fields";
+    }
+
+	if (! isset($_POST['idTipoUsuario'])) {
     	$error[] = "Please fill out all fields";
     }
 
@@ -51,6 +63,29 @@ if(isset($_POST['submit'])){
 		if (! empty($row['username'])){
 			$error[] = 'Username provided is already in use.';
 		}
+	}
+
+	$nombre = $_POST['nombre'];
+
+	if (! $user->isValidUsername($nombre)){
+		$error[] = 'Names must be at least 3 Alphanumeric characters';
+	} else {
+		$stmt = $db->prepare('SELECT nombre FROM usuarios WHERE nombre = :nombre');
+		$stmt->execute(array(':nombre' => $nombre));
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+
+	$apellidos = $_POST['apellidos'];
+
+	//very basic validation
+	if (! $user->isValidUsername($apellidos)){
+		$error[] = 'lastnames must be at least 3 Alphanumeric characters';
+	} else {
+		$stmt = $db->prepare('SELECT apellidos FROM usuarios WHERE apellidos = :apellidos');
+		$stmt->execute(array(':apellidos' => $apellidos));
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		
 	}
 
 	if (strlen($_POST['password']) < 3){
@@ -92,11 +127,14 @@ if(isset($_POST['submit'])){
 		try {
 
 			//insert into database with a prepared statement
-			$stmt = $db->prepare('INSERT INTO usuarios (username,password,email,active) VALUES (:username, :password, :email, :active)');
+			$stmt = $db->prepare('INSERT INTO usuarios (username,password,nombre,apellidos,email,idTipoUsuario,active) VALUES (:username, :password,:nombre, :apellidos, :email, :idTipoUsuario, :active)');
 			$stmt->execute(array(
 				':username' => $username,
 				':password' => $hashedpassword,
+				':nombre' => $nombre,
+				':apellidos' => $apellidos,
 				':email' => $email,
+				':idTipoUsuario' => $idTipoUsuario,
 				':active' => $activasion
 			));
 			$id = $db->lastInsertId('idUsuario');
@@ -153,9 +191,23 @@ require('../../../layout/menuAdmin.php');
 				<div class="form-group">
 					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="User Name" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['username'], ENT_QUOTES); } ?>" tabindex="1">
 				</div>
+
+				<div class="form-group">
+					<input type="text" name="nombre" id="nombre" class="form-control input-lg" placeholder="Nombre de usuario" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['nombre'], ENT_QUOTES); } ?>" tabindex="1">
+				</div>
+
+				<div class="form-group">
+					<input type="text" name="apellidos" id="apellidos" class="form-control input-lg" placeholder="Apellidos" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['apellidos'], ENT_QUOTES); } ?>" tabindex="1">
+				</div>
+
 				<div class="form-group">
 					<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['email'], ENT_QUOTES); } ?>" tabindex="2">
 				</div>
+
+				<div class="form-group">
+					<input type="text" name="idTipoUsuario" id="idTipoUsuario" class="form-control input-lg" placeholder="Tipo de usuario" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['idTipoUsuario'], ENT_QUOTES); } ?>" tabindex="1">
+				</div>
+
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
