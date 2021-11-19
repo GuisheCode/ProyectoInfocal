@@ -36,7 +36,7 @@ $tablaCarreras = new Crud("carreras");
 $tablaRecursos = new Crud("recursos");
 ?>
 
-<table id="tabla" class="table table-striped" style="width:100%">
+<table id="tabla_clases" class="table table-striped" style="width:100%">
     <thead>
         <tr>
             <th>Aula</th>

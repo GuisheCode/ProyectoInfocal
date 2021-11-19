@@ -35,37 +35,16 @@ $title = 'Turno mañana';
 require('../../../layout/header.php');
 require('../../../layout/menu.php');
 ?>
-<!-- <div id="midiv">
-    <nav>
-      <a class="btn active" href="#hoy">Hoy</a>
-      <a class="btn" href="#manana">Mañana</a>
-      <a class="btn" href="#semana">Semana</a>
-    </nav></div> -->
-<div id="app">
-</div>
-
 <div>
     <ul>
     <li  class="lista" style="float:left"><h4 class="fecha"><?php echo $dia . ", " . date('d') . " de " . $mes . " de " . date('Y') ?></h4></li>
-    
-  <li class="lista" style="float:right"><a href="#home"><h5>Noche</h5><?php if ($hora >= 070000 && $hora<= 120000){
-                echo "<h5>Actual</h5>";
-            }
-            ?></a></li>
-  <li  class="lista" style="float:right"><a href="#news"><h5>Tarde</h5><?php if ($hora >= 120000 && $hora<= 180000){
-                echo "<h5>Actual</h5>";
-            }
-            ?></a></li>
-  <li  class="lista navActive" style="float:right"><a href="#contact"><h5>Mañana</h5><?php if ($hora >= 180000 && $hora<= 220000){
-                echo "<h5>Actual</h5>";
-            }
-            ?></a></li>
+    <li class="lista" style="float:right"><a href="noche.php"><h5>Noche</h5></a></li>
+    <li  class="lista" style="float:right"><a href="tarde.php"><h5>Tarde</h5></a></li>
+    <li  class="lista navActive" style="float:right"><a href="manana.php"><h5>Mañana</h5></a></li>
     <li  class="lista" style="float:right"><h5 class="tituloLista">Turnos: </h5></li>
 </ul>
 </div>
-<div class="fila" id="fila">
-    <br>
-    <br>
+<br><br>
     <?php
     $hora = date('Gis');
     $hora = "070000";
@@ -73,9 +52,21 @@ require('../../../layout/menu.php');
     ?>
     <h4 class="tituloDocente">Turno Mañana - 12:00 hrs a 18:00 hrs</h4>
     <br><br><br>
-
     <h4 class="tituloDocente">En clases actualmente</h4>
     <hr>
+    <table id="tabla_actual" class="table table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Cod. Oferta</th>
+            <th>Aula</th>
+            <th>Materia</th>
+            <th>Carrera</th>
+            <th>Docente</th>
+            <th>Horario</th>
+            <th>Terminar</th>
+        </tr>
+    </thead>
+    <tbody>
     <?php
     // Todos los datos de la tabla materia
     $tablaClases = new Crud("clases");
@@ -124,28 +115,15 @@ require('../../../layout/menu.php');
                         foreach ($datosDocentes as $valorDocente) {
                             foreach ($datosAulas as $valorAula) {
                                 foreach ($datosCarreras as $valorCarrera) {
-                                    // echo "<br>". $valorMateria['materia'] ."<br>";
-                                    // echo "<br>". $valorAula['aula'] ."<br>";
-                                    // echo "<br>". $valorCarrera['carrera'] ."<br>";
-                                    // echo "<br>". $valorDocente['nombre'] ."<br>";
-                                    // echo "<br>". $valorHorario['horaInicio'] ."<br>";
-    ?>
-                                    <div class="columna">
-                                        <div class="card">
-                                            <div class="dentroOcupado">
-                                                <br>
-                                                <i class="fas fa-users iconoTarjeta"></i>
-                                                <h4 class="tituloTarjeta">Aula: <b><?php echo $valorAula['aula'] ?></b></h4>
-                                                <h5 class="subtituloTarjeta">Materia: <i><?php echo $valorMateria['materia'] ?></i></h5>
-                                            </div>
-                                            <h5 class="subTarjeta">Carrera: <b><i><?php echo $valorCarrera['carrera'] ?></i></b></h5>
-                                            <h5 class="subTarjeta">Docente: <b><i><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></i></b></h5>
-                                            <h5 class="subTarjeta">Horario: <b><i><?php echo $valorHorario['horaInicio'] ?> -
-                                                        <?php echo $valorHorario['horaFin'] ?></i></b></h5>
-                                            <div class="divBtnRec"><button type="button" id="abrirModal" onclick="capturarIdMateria(<?php echo $valorClases['idClase']; ?>)">Terminar</button></div>
-                                        </div>
-                                    </div>
-    <?php
+    ?><tr>
+                                            <td><?php echo $valorClases['cod_oferta'] ?></td>
+                                            <td><?php echo $valorAula['aula'] ?></td>
+                                            <td><?php echo $valorMateria['materia'] ?></td>
+                                            <td><?php echo $valorCarrera['carrera'] ?></td>
+                                            <td><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></td>
+                                            <td><?php echo $valorHorario['horaInicio'] ?> a <?php echo $valorHorario['horaFin'] ?></td>
+                                            <td><div class="divBtnRec"><button type="button" id="abrirModal" onclick="capturarIdMateria(<?php echo $valorClases['idClase']; ?>)">Terminar</button></div></td>
+    </tr><?php
                                 }
                             }
                         }
@@ -156,18 +134,37 @@ require('../../../layout/menu.php');
     }
 }
     ?>
-</div>
-
-
-
-
+</tbody>
+    <tfoot>
+        <tr>
+            <th>Cod. Oferta</th>
+            <th>Aula</th>
+            <th>Materia</th>
+            <th>Carrera</th>
+            <th>Docente</th>
+            <th>Horario</th>
+            <th>Terminar</th>
+        </tr>
+    </tfoot>
+</table>
 <br><br>
-<div class="fila" id="fila">
     <h4 class="tituloDocente">Clases que se aproximan:</h4>
     <hr>
     <div>
         <h4>Turno mañana</h4>
-
+        <table id="tabla_manana" class="table table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Cod. Oferta</th>
+            <th>Aula</th>
+            <th>Materia</th>
+            <th>Carrera</th>
+            <th>Docente</th>
+            <th>Horario</th>
+            <th>Terminar</th>
+        </tr>
+    </thead>
+    <tbody>
         <?php
         // Especificamos seleccionar todos los datos que tengan ocupado=0 (que no se esta pasando clases)
         $clasesTarde = $tablaClases->where("ocupado", "=", 0)->get();
@@ -208,22 +205,15 @@ require('../../../layout/menu.php');
                                 foreach ($datosAulas as $valorAula) {
                                     foreach ($datosCarreras as $valorCarrera) {
         ?>
-                                        <div class="columna">
-                                            <div class="card">
-                                                <div class="dentro">
-                                                    <br>
-                                                    <i class="fas fa-users iconoTarjeta"></i>
-                                                    <h4 class="tituloTarjeta">Aula: <b><?php echo $valorAula['aula'] ?></b></h4>
-                                                    <h5 class="subtituloTarjeta">Materia: <i><?php echo $valorMateria['materia'] ?></i></h5>
-                                                </div>
-                                                <h5 class="subTarjeta">Carrera: <b><i><?php echo $valorCarrera['carrera'] ?></i></b></h5>
-                                                <h5 class="subTarjeta">Docente: <b><i><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></i></b></h5>
-                                                <h5 class="subTarjeta">Horario: <b><i><?php echo $valorHorario['horaInicio'] ?> -
-                                                            <?php echo $valorHorario['horaFin'] ?></i></b></h5>
-                                                <div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div>
-                                            </div>
-                                        </div>
-        <?php
+                                    <tr>        
+                                                <td><?php echo $valorClase['cod_oferta'] ?></td>
+                                                <td><?php echo $valorAula['aula'] ?></td>
+                                                <td><?php echo $valorMateria['materia'] ?></td>
+                                                <td><?php echo $valorCarrera['carrera'] ?></td>
+                                                <td><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></td>
+                                                <td><?php echo $valorHorario['horaInicio'] ?> a <?php echo $valorHorario['horaFin'] ?></td>
+                                                <td><div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div></td>
+    </tr><?php
                                     }
                                 }
                             }
@@ -234,20 +224,38 @@ require('../../../layout/menu.php');
         }
     }
         ?>
-
-
-
-
-    </div>
-</div>
-<div class="fila" id="fila">
-    <div>
+        </tbody>
+    <tfoot>
+        <tr>
+            <th>Cod. Oferta</th>
+            <th>Aula</th>
+            <th>Materia</th>
+            <th>Carrera</th>
+            <th>Docente</th>
+            <th>Horario</th>
+            <th>Terminar</th>
+        </tr>
+    </tfoot>
+</table>
         <h4>Turno tarde</h4>
+        <table id="tabla_tarde" class="table table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Cod. Oferta</th>
+            <th>Aula</th>
+            <th>Materia</th>
+            <th>Carrera</th>
+            <th>Docente</th>
+            <th>Horario</th>
+            <th>Terminar</th>
+        </tr>
+    </thead>
+    <tbody>
         <?php
         // Especificamos seleccionar todos los datos que tengan ocupado=1 (que se esta pasando clases)
-        $clasesNoche = $tablaClases->get();
+        $clasesTarde = $tablaClases->where("ocupado", "=", 0)->get();
 
-        foreach ($clasesNoche as $valorClase) {
+        foreach ($clasesTarde as $valorClase) {
             $datosMaterias= $tablaMaterias->where("idMateria","=",$valorClase['idMateria'])->get();
             foreach ($datosMaterias as $valorMateria) {
             // convertimos las fechas de inicio y fin en numeros enteros
@@ -284,21 +292,15 @@ require('../../../layout/menu.php');
                                 foreach ($datosAulas as $valorAula) {
                                     foreach ($datosCarreras as $valorCarrera) {
         ?>
-                                        <div class="columna">
-                                            <div class="card">
-                                                <div class="dentro">
-                                                    <br>
-                                                    <i class="fas fa-users iconoTarjeta"></i>
-                                                    <h4 class="tituloTarjeta">Aula: <b><?php echo $valorAula['aula'] ?></b></h4>
-                                                    <h5 class="subtituloTarjeta">Materia: <i><?php echo $valorMateria['materia'] ?></i></h5>
-                                                </div>
-                                                <h5 class="subTarjeta">Carrera: <b><i><?php echo $valorCarrera['carrera'] ?></i></b></h5>
-                                                <h5 class="subTarjeta">Docente: <b><i><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></i></b></h5>
-                                                <h5 class="subTarjeta">Horario: <b><i><?php echo $valorHorario['horaInicio'] ?> -
-                                                            <?php echo $valorHorario['horaFin'] ?></i></b></h5>
-                                                <div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div>
-                                            </div>
-                                        </div>
+                                        <tr>
+                                                <td><?php echo $valorClase['cod_oferta'] ?></b></h4></td>
+                                                <td><?php echo $valorAula['aula'] ?></b></h4></td>
+                                                <td><?php echo $valorMateria['materia'] ?></td>
+                                                <td><?php echo $valorCarrera['carrera'] ?></i></b></h5></td>
+                                                <td><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></i></b></h5></td>
+                                                <td><?php echo $valorHorario['horaInicio'] ?> a <?php echo $valorHorario['horaFin'] ?></i></b></h5></td>
+                                                <td><div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div></td>
+                                        </tr>
         <?php
                                     }
                                 }
@@ -310,19 +312,37 @@ require('../../../layout/menu.php');
         }
     }
         ?>
+</tbody>
+    <tfoot>
+        <tr>
+            <th>Cod. Oferta</th>
+            <th>Aula</th>
+            <th>Materia</th>
+            <th>Carrera</th>
+            <th>Docente</th>
+            <th>Horario</th>
+            <th>Terminar</th>
+        </tr>
+    </tfoot>
+</table>
 
-    </div>
-</div>
-
-
-
-<div class="fila" id="fila">
-    <div>
         <h4>Turno noche</h4>
+        <table id="tabla_noche" class="table table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Cod. Oferta</th>
+            <th>Aula</th>
+            <th>Materia</th>
+            <th>Carrera</th>
+            <th>Docente</th>
+            <th>Horario</th>
+            <th>Terminar</th>
+        </tr>
+    </thead>
+    <tbody>
         <?php
         // Especificamos seleccionar todos los datos que tengan ocupado=1 (que se esta pasando clases)
-        $clasesNoche = $tablaClases->get();
-
+        $clasesNoche = $tablaClases->where("ocupado", "=", 0)->get();
         foreach ($clasesNoche as $valorClase) {
             $datosMaterias= $tablaMaterias->where("idMateria","=",$valorClase['idMateria'])->get();
             foreach ($datosMaterias as $valorMateria) {
@@ -360,21 +380,15 @@ require('../../../layout/menu.php');
                                 foreach ($datosAulas as $valorAula) {
                                     foreach ($datosCarreras as $valorCarrera) {
         ?>
-                                        <div class="columna">
-                                            <div class="card">
-                                                <div class="dentro">
-                                                    <br>
-                                                    <i class="fas fa-users iconoTarjeta"></i>
-                                                    <h4 class="tituloTarjeta">Aula: <b><?php echo $valorAula['aula'] ?></b></h4>
-                                                    <h5 class="subtituloTarjeta">Materia: <i><?php echo $valorMateria['materia'] ?></i></h5>
-                                                </div>
-                                                <h5 class="subTarjeta">Carrera: <b><i><?php echo $valorCarrera['carrera'] ?></i></b></h5>
-                                                <h5 class="subTarjeta">Docente: <b><i><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></i></b></h5>
-                                                <h5 class="subTarjeta">Horario: <b><i><?php echo $valorHorario['horaInicio'] ?> -
-                                                            <?php echo $valorHorario['horaFin'] ?></i></b></h5>
-                                                <div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div>
-                                            </div>
-                                        </div>
+        <tr>
+                                                <td><?php echo $valorClase['cod_oferta'] ?></td>
+                                                <td><?php echo $valorAula['aula'] ?></td>
+                                                <td><?php echo $valorMateria['materia'] ?></td>
+                                                <td><?php echo $valorCarrera['carrera'] ?></td>
+                                                <td><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></td>
+                                                <td><?php echo $valorHorario['horaInicio'] ?> a <?php echo $valorHorario['horaFin'] ?></td>
+                                                <td><div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div></td>
+        </tr>
         <?php
                                     }
                                 }
@@ -386,11 +400,19 @@ require('../../../layout/menu.php');
         }
     }
         ?>
-
-    </div>
-</div>
-
-
+</tbody>
+    <tfoot>
+        <tr>
+            <th>Cod. Oferta</th>
+            <th>Aula</th>
+            <th>Materia</th>
+            <th>Carrera</th>
+            <th>Docente</th>
+            <th>Horario</th>
+            <th>Terminar</th>
+        </tr>
+    </tfoot>
+</table>
 
 
 <br><br>

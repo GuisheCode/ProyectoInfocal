@@ -3,7 +3,127 @@
 <script src="../../../assets/app.js"></script>
 <script>
         $(document).ready( function () {
-    $('#tabla').DataTable({
+    $('#tabla_actual').DataTable({
+    "language":{
+    "decimal":        "",
+    "emptyTable":     "No data available in table",
+    "info":           "Viendo _START_ de _END_ de _TOTAL_ entradas",
+    "infoEmpty":      "Viendo 0 de 0 de 0 entradas",
+    "infoFiltered":   "(filtered from _MAX_ total entries)",
+    "infoPostFix":    "",
+    "thousands":      ",",
+    "lengthMenu":     "Ver _MENU_ entradas",
+    "loadingRecords": "Cargando...",
+    "processing":     "Procesando...",
+    "search":         "Buscar:",
+    "zeroRecords":    "No matching records found",
+    "paginate": {
+        "first":      "First",
+        "last":       "Last",
+        "next":       "Next",
+        "previous":   "Previous"
+    },
+    "aria": {
+        "sortAscending":  ": activate to sort column ascending",
+        "sortDescending": ": activate to sort column descending"
+    }
+}
+    });
+} );
+    </script>
+    <script>
+        $(document).ready( function () {
+    $('#tabla_manana').DataTable({
+    "language":{
+    "decimal":        "",
+    "emptyTable":     "No data available in table",
+    "info":           "Viendo _START_ de _END_ de _TOTAL_ entradas",
+    "infoEmpty":      "Viendo 0 de 0 de 0 entradas",
+    "infoFiltered":   "(filtered from _MAX_ total entries)",
+    "infoPostFix":    "",
+    "thousands":      ",",
+    "lengthMenu":     "Ver _MENU_ entradas",
+    "loadingRecords": "Cargando...",
+    "processing":     "Procesando...",
+    "search":         "Buscar:",
+    "zeroRecords":    "No matching records found",
+    "paginate": {
+        "first":      "First",
+        "last":       "Last",
+        "next":       "Next",
+        "previous":   "Previous"
+    },
+    "aria": {
+        "sortAscending":  ": activate to sort column ascending",
+        "sortDescending": ": activate to sort column descending"
+    }
+}
+    });
+} );
+    </script>
+    <script>
+        $(document).ready( function () {
+    $('#tabla_tarde').DataTable({
+    "language":{
+    "decimal":        "",
+    "emptyTable":     "No data available in table",
+    "info":           "Viendo _START_ de _END_ de _TOTAL_ entradas",
+    "infoEmpty":      "Viendo 0 de 0 de 0 entradas",
+    "infoFiltered":   "(filtered from _MAX_ total entries)",
+    "infoPostFix":    "",
+    "thousands":      ",",
+    "lengthMenu":     "Ver _MENU_ entradas",
+    "loadingRecords": "Cargando...",
+    "processing":     "Procesando...",
+    "search":         "Buscar:",
+    "zeroRecords":    "No matching records found",
+    "paginate": {
+        "first":      "First",
+        "last":       "Last",
+        "next":       "Next",
+        "previous":   "Previous"
+    },
+    "aria": {
+        "sortAscending":  ": activate to sort column ascending",
+        "sortDescending": ": activate to sort column descending"
+    }
+}
+    });
+} );
+    </script>
+    <script>
+        $(document).ready( function () {
+    $('#tabla_noche').DataTable({
+    "language":{
+    "decimal":        "",
+    "emptyTable":     "No data available in table",
+    "info":           "Viendo _START_ de _END_ de _TOTAL_ entradas",
+    "infoEmpty":      "Viendo 0 de 0 de 0 entradas",
+    "infoFiltered":   "(filtered from _MAX_ total entries)",
+    "infoPostFix":    "",
+    "thousands":      ",",
+    "lengthMenu":     "Ver _MENU_ entradas",
+    "loadingRecords": "Cargando...",
+    "processing":     "Procesando...",
+    "search":         "Buscar:",
+    "zeroRecords":    "No matching records found",
+    "paginate": {
+        "first":      "First",
+        "last":       "Last",
+        "next":       "Next",
+        "previous":   "Previous"
+    },
+    "aria": {
+        "sortAscending":  ": activate to sort column ascending",
+        "sortDescending": ": activate to sort column descending"
+    }
+}
+    });
+} );
+    </script>
+    <script>
+        $(document).ready( function () {
+    $('#tabla_clases').DataTable({
     "language":{
     "decimal":        "",
     "emptyTable":     "No data available in table",
