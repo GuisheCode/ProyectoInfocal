@@ -15,6 +15,7 @@
     <!--  -->
     <!-- bootstrap5 -->
     <link rel="stylesheet" href="../../../style/main.css">
+    <link rel="stylesheet" href="../../../style/estilo_tablas.css">
     <link rel="stylesheet" href="../../../style/styleCards.css">
     <!-- <link rel="stylesheet" href="style/StyleNavTabs.css"> -->
     <link rel="stylesheet" href="../../../style/app.css">

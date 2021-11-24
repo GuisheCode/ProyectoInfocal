@@ -10,7 +10,7 @@ date_default_timezone_set('America/La_Paz');
 define('DBHOST','localhost');
 define('DBUSER','root');
 define('DBPASS','');
-define('DBNAME','infocal');
+define('DBNAME','infocal4');
 
 // Direccion de la app - PHP MAILER
 define('DIR','http://domain.com/');
@@ -37,7 +37,7 @@ class Conexion {
     private $configuracion = [
         "driver" => "mysql",
         "host" => "localhost",
-        "database" => "infocal",
+        "database" => "infocal4",
         "port" => "3306",
         "username" => "root",
         "password" => "",

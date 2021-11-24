@@ -46,10 +46,10 @@ $hora = date('Gis');
                     <i class='bx bx-grid-alt nav__icon'></i>
                     <span class="nav__name">CLASES HOY</span>
                 </a>
-                <a href="../todas-las-clases/" class="nav__link">
+                <!-- <a href="../todas-las-clases/" class="nav__link">
                     <i class='bx bx-message-square-detail nav__icon'></i>
                     <span class="nav__name">CLASES ESTA<br>SEMANA</span>
-                </a>
+                </a> -->
                 <a href="../asignar/" class="nav__link">
                     <i class='bx bx-user nav__icon'></i>
                     <span class="nav__name">HERRAMIENTAS<br>MULTIMEDIA</span>

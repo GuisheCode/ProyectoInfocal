@@ -1,4 +1,8 @@
 @charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/* font-family: 'Roboto', sans-serif; */
+/* font-family: 'Rubik', sans-serif; */
+
 /* Aquí definimos las Custom properties */
 :root {
   --negro: #393939;
@@ -46,6 +50,9 @@
   -webkit-box-shadow: 0.4rem 0.4rem 0.8rem var(--sombra-ppal), -0.4rem -0.4rem 0.8rem var(--sombra-sec), inset 0 0 0 transparent, inset 0 0 0 transparent;
           box-shadow: 0.4rem 0.4rem 0.8rem var(--sombra-ppal), -0.4rem -0.4rem 0.8rem var(--sombra-sec), inset 0 0 0 transparent, inset 0 0 0 transparent;
   cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 25px;
+  font-weight: 700;
 }
 .acordeon .h2:hover {
   color: var(--negro);
@@ -67,5 +74,5 @@
 }
 
 .acordeon .bloque.activo .contenido {
-  height: 12rem;
+  height: 6rem;
 }

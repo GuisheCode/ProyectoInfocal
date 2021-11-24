@@ -1,0 +1,31 @@
+.clase_actual{
+    background-color: rgba(248, 132, 8, 0.1);
+    padding-right: 25px;
+    padding-left: 50px;
+    padding-bottom: 25px;
+    padding-top: 25px;
+    margin-right: -25px;
+    margin-left: -35px;
+    /* margin-top: -25px;
+    margin-bottom: -45px; */
+}
+.clase_proxima{
+    background-color: rgba(8, 132, 248, 0.1);
+    padding-right: 25px;
+    padding-left: 50px;
+    padding-bottom: 25px;
+    padding-top: 25px;
+    margin-right: -25px;
+    margin-left: -35px;
+    /* margin-top: -25px;
+    margin-bottom: -45px; */
+}
+.aulas_vacias{
+    background-color: rgba(255, 255, 255, 0.1);
+    padding-right: 25px;
+    padding-left: 50px;
+    padding-bottom: 25px;
+    padding-top: 25px;
+    margin-right: -25px;
+    margin-left: -35px;
+}

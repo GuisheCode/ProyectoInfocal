@@ -10,7 +10,7 @@ $diaIngles = date('l');
 $mesIngles = date('F');
 $dia = traducirDia($diaIngles);
 $mes = traducirMes($mesIngles);
-
+$diaComparar=traducirDiaComparar($diaIngles);
 // Si no ha iniciado sesion, lo redirige ala ventana login
 if (!$user->is_logged_in()) {
     header('Location: ../../../login.php');
@@ -35,8 +35,8 @@ $title = 'Turno mañana';
 require('../../../layout/header.php');
 require('../../../layout/menu.php');
 ?>
-<div>
-    <ul>
+<div class="divnav">
+    <ul class="listaentera">
     <li  class="lista" style="float:left"><h4 class="fecha"><?php echo $dia . ", " . date('d') . " de " . $mes . " de " . date('Y') ?></h4></li>
     <li class="lista" style="float:right"><a href="noche.php"><h5>Noche</h5></a></li>
     <li  class="lista" style="float:right"><a href="tarde.php"><h5>Tarde</h5></a></li>
@@ -48,10 +48,11 @@ require('../../../layout/menu.php');
     <?php
     $hora = date('Gis');
     $hora = "070000";
-    $dia = "Viernes";
+    $diaComparar = "viernes";
     ?>
-    <h4 class="tituloDocente">Turno Mañana - 12:00 hrs a 18:00 hrs</h4>
+    <h4 class="tituloDocente" style="text-align: center;">Turno Mañana - 12:00 hrs a 18:00 hrs</h4>
     <br><br><br>
+    <div class="clase_actual">
     <h4 class="tituloDocente">En clases actualmente</h4>
     <hr>
     <table id="tabla_actual" class="table table-striped" style="width:100%">
@@ -72,7 +73,7 @@ require('../../../layout/menu.php');
     $tablaClases = new Crud("clases");
     $tablaMaterias =new Crud("materias");
     $tablaHorarios = new Crud("horarios");
-    $tablaDocentes = new Crud("docentes");
+    $tablaPersonas = new Crud("personas");
     $tablaAulas = new Crud("aulas");
     $tablaCarreras = new Crud("carreras");
     $tablaRecursos = new Crud("recursos");
@@ -83,9 +84,9 @@ require('../../../layout/menu.php');
         $datosMaterias = $tablaMaterias->where("idMateria","=",$valorClases['idMateria'])->get();
         foreach ($datosMaterias as $valorMateria) {
         // convertimos las fechas de inicio y fin en numeros enteros
-        $valorStringInicio = $valorMateria['fechaInicio'];
+        $valorStringInicio = $valorClases['fechaInicio'];
         $valorEnteroInicio = str_replace("-", "", $valorStringInicio);
-        $valorStringFin = $valorMateria['fechaFin'];
+        $valorStringFin = $valorClases['fechaFin'];
         $valorEnteroFin = str_replace("-", "", $valorStringFin);
         // comparamos los valores con la fecha actual
         $diferenciaInicio = $fechaHoy - $valorEnteroInicio;
@@ -94,11 +95,11 @@ require('../../../layout/menu.php');
         if ($diferenciaInicio >= 0 && $diferenciaFin <= 0) {
 
             // extraemos los datos de la tabla horarios con los idMateria ya seleccionados en fecha
-            $datosHorarios = $tablaHorarios->where("idMateria", "=", $valorClases['idMateria'])->get();
+            $datosHorarios = $tablaHorarios->where("idClase", "=", $valorClases['idClase'])->get();
             foreach ($datosHorarios as $valorHorario) {
 
                 //seleccionar solo datos que esten hoy
-                if ($valorHorario["$dia"] == 1) {
+                if ($valorHorario["$diaComparar"] == 1) {
                     // convertimos en enteros las hora inicio y fin
                     $horaInicioString = $valorHorario['horaInicio'];
                     $horaInicioEntero = str_replace(":", "", $horaInicioString);
@@ -109,20 +110,20 @@ require('../../../layout/menu.php');
                     $diferenciaHoraFin = $hora - $horaFinEntero;
                     // seleccionamos todos los datos que esten en el horario mañana, tarde o noche
                     if ($horaInicioEntero >= 070000 && $horaFinEntero <= 120000) {
-                        $datosDocentes = $tablaDocentes->where("idDocente", "=", $valorClases['idDocente'])->get();
+                        $datosDocentes = $tablaPersonas->where("id_persona", "=", $valorClases['id_persona'])->get();
                         $datosAulas = $tablaAulas->where("idAula", "=", $valorClases['idAula'])->get();
                         $datosCarreras = $tablaCarreras->where("idCarrera", "=", $valorClases['idCarrera'])->get();
                         foreach ($datosDocentes as $valorDocente) {
                             foreach ($datosAulas as $valorAula) {
                                 foreach ($datosCarreras as $valorCarrera) {
     ?><tr>
-                                            <td><?php echo $valorClases['cod_oferta'] ?></td>
+                                            <td><?php echo $valorClases['idClase'] ?></td>
                                             <td><?php echo $valorAula['aula'] ?></td>
                                             <td><?php echo $valorMateria['materia'] ?></td>
                                             <td><?php echo $valorCarrera['carrera'] ?></td>
                                             <td><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></td>
                                             <td><?php echo $valorHorario['horaInicio'] ?> a <?php echo $valorHorario['horaFin'] ?></td>
-                                            <td><div class="divBtnRec"><button type="button" id="abrirModal" onclick="capturarIdMateria(<?php echo $valorClases['idClase']; ?>)">Terminar</button></div></td>
+                                            <td><div class="divBtnRec"><button class="btn btn-danger" type="button" id="abrirModal" onclick="capturarIdMateria(<?php echo $valorClases['idClase']; ?>)">Terminar</button></div></td>
     </tr><?php
                                 }
                             }
@@ -147,9 +148,11 @@ require('../../../layout/menu.php');
         </tr>
     </tfoot>
 </table>
+    </div>
 <br><br>
+<div class="clase_proxima">
     <h4 class="tituloDocente">Clases que se aproximan:</h4>
-    <hr>
+    <hr><br><br>
     <div>
         <h4>Turno mañana</h4>
         <table id="tabla_manana" class="table table-striped" style="width:100%">
@@ -161,7 +164,7 @@ require('../../../layout/menu.php');
             <th>Carrera</th>
             <th>Docente</th>
             <th>Horario</th>
-            <th>Terminar</th>
+            <th>Iniciar</th>
         </tr>
     </thead>
     <tbody>
@@ -173,9 +176,9 @@ require('../../../layout/menu.php');
             $datosMaterias= $tablaMaterias->where("idMateria","=",$valorClase['idMateria'])->get();
             foreach ($datosMaterias as $valorMateria) {
             // convertimos las fechas de inicio y fin en numeros enteros
-            $valorStringInicio = $valorMateria['fechaInicio'];
+            $valorStringInicio = $valorClase['fechaInicio'];
             $valorEnteroInicio = str_replace("-", "", $valorStringInicio);
-            $valorStringFin = $valorMateria['fechaFin'];
+            $valorStringFin = $valorClase['fechaFin'];
             $valorEnteroFin = str_replace("-", "", $valorStringFin);
             // comparamos los valores con la fecha actual
             $diferenciaInicio = $fechaHoy - $valorEnteroInicio;
@@ -183,11 +186,11 @@ require('../../../layout/menu.php');
             // si la diferencia con la fecha inicio es mayor o igual a 0 y si la diferencia con la fecha fin es menor o igual a 0, estan sucediendo
             if ($diferenciaInicio >= 0 && $diferenciaFin <= 0) {
                 // extraemos los datos de la tabla horarios con los idMateria ya seleccionados en fecha
-                $datosHorarios = $tablaHorarios->where("idMateria", "=", $valorClase['idMateria'])->get();
+                $datosHorarios = $tablaHorarios->where("idClase", "=", $valorClase['idClase'])->get();
                 foreach ($datosHorarios as $valorHorario) {
 
                     //seleccionar solo datos que esten hoy
-                    if ($valorHorario["$dia"] == 1) {
+                    if ($valorHorario["$diaComparar"] == 1) {
                         // convertimos en enteros las hora inicio y fin
                         $horaInicioString = $valorHorario['horaInicio'];
                         $horaInicioEntero = str_replace(":", "", $horaInicioString);
@@ -198,7 +201,7 @@ require('../../../layout/menu.php');
                         $diferenciaHoraFin = $hora - $horaFinEntero;
                         // seleccionamos todos los datos que esten en el horario mañana, tarde o noche
                         if ($horaInicioEntero >= 070000 && $horaFinEntero <= 120000) {
-                            $datosDocentes = $tablaDocentes->where("idDocente", "=", $valorClase['idDocente'])->get();
+                            $datosDocentes = $tablaPersonas->where("id_persona", "=", $valorClase['id_persona'])->get();
                             $datosAulas = $tablaAulas->where("idAula", "=", $valorClase['idAula'])->get();
                             $datosCarreras = $tablaCarreras->where("idCarrera", "=", $valorClase['idCarrera'])->get();
                             foreach ($datosDocentes as $valorDocente) {
@@ -206,13 +209,13 @@ require('../../../layout/menu.php');
                                     foreach ($datosCarreras as $valorCarrera) {
         ?>
                                     <tr>        
-                                                <td><?php echo $valorClase['cod_oferta'] ?></td>
+                                                <td><?php echo $valorClase['idClase'] ?></td>
                                                 <td><?php echo $valorAula['aula'] ?></td>
                                                 <td><?php echo $valorMateria['materia'] ?></td>
                                                 <td><?php echo $valorCarrera['carrera'] ?></td>
                                                 <td><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></td>
                                                 <td><?php echo $valorHorario['horaInicio'] ?> a <?php echo $valorHorario['horaFin'] ?></td>
-                                                <td><div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div></td>
+                                                <td><div class="divBtnRec"><button class="btn btn-primary" type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div></td>
     </tr><?php
                                     }
                                 }
@@ -233,11 +236,12 @@ require('../../../layout/menu.php');
             <th>Carrera</th>
             <th>Docente</th>
             <th>Horario</th>
-            <th>Terminar</th>
+            <th>Iniciar</th>
         </tr>
     </tfoot>
 </table>
-        <h4>Turno tarde</h4>
+<br><hr><br>
+        <h4 class="tituloDocente2">Turno tarde</h4>
         <table id="tabla_tarde" class="table table-striped" style="width:100%">
     <thead>
         <tr>
@@ -247,7 +251,7 @@ require('../../../layout/menu.php');
             <th>Carrera</th>
             <th>Docente</th>
             <th>Horario</th>
-            <th>Terminar</th>
+            <!-- <th>Terminar</th> -->
         </tr>
     </thead>
     <tbody>
@@ -259,9 +263,9 @@ require('../../../layout/menu.php');
             $datosMaterias= $tablaMaterias->where("idMateria","=",$valorClase['idMateria'])->get();
             foreach ($datosMaterias as $valorMateria) {
             // convertimos las fechas de inicio y fin en numeros enteros
-            $valorStringInicio = $valorMateria['fechaInicio'];
+            $valorStringInicio = $valorClase['fechaInicio'];
             $valorEnteroInicio = str_replace("-", "", $valorStringInicio);
-            $valorStringFin = $valorMateria['fechaFin'];
+            $valorStringFin = $valorClase['fechaFin'];
             $valorEnteroFin = str_replace("-", "", $valorStringFin);
             // comparamos los valores con la fecha actual
             $diferenciaInicio = $fechaHoy - $valorEnteroInicio;
@@ -270,11 +274,11 @@ require('../../../layout/menu.php');
             if ($diferenciaInicio >= 0 && $diferenciaFin <= 0) {
 
                 // extraemos los datos de la tabla horarios con los idMateria ya seleccionados en fecha
-                $datosHorarios = $tablaHorarios->where("idMateria", "=", $valorMateria['idMateria'])->get();
+                $datosHorarios = $tablaHorarios->where("idClase", "=", $valorClase['idClase'])->get();
                 foreach ($datosHorarios as $valorHorario) {
 
                     //seleccionar solo datos que esten hoy
-                    if ($valorHorario["$dia"] == 1) {
+                    if ($valorHorario["$diaComparar"] == 1) {
                         // convertimos en enteros las hora inicio y fin
                         $horaInicioString = $valorHorario['horaInicio'];
                         $horaInicioEntero = str_replace(":", "", $horaInicioString);
@@ -285,7 +289,7 @@ require('../../../layout/menu.php');
                         $diferenciaHoraFin = $hora - $horaFinEntero;
                         // seleccionamos todos los datos que esten en el horario mañana, tarde o noche
                         if ($horaInicioEntero >= 130000 && $horaFinEntero <= 180000) {
-                            $datosDocentes = $tablaDocentes->where("idDocente", "=", $valorClase['idDocente'])->get();
+                            $datosDocentes = $tablaPersonas->where("id_persona", "=", $valorClase['id_persona'])->get();
                             $datosAulas = $tablaAulas->where("idAula", "=", $valorClase['idAula'])->get();
                             $datosCarreras = $tablaCarreras->where("idCarrera", "=", $valorClase['idCarrera'])->get();
                             foreach ($datosDocentes as $valorDocente) {
@@ -293,13 +297,13 @@ require('../../../layout/menu.php');
                                     foreach ($datosCarreras as $valorCarrera) {
         ?>
                                         <tr>
-                                                <td><?php echo $valorClase['cod_oferta'] ?></b></h4></td>
+                                                <td><?php echo $valorClase['idClase'] ?></b></h4></td>
                                                 <td><?php echo $valorAula['aula'] ?></b></h4></td>
                                                 <td><?php echo $valorMateria['materia'] ?></td>
                                                 <td><?php echo $valorCarrera['carrera'] ?></i></b></h5></td>
                                                 <td><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></i></b></h5></td>
                                                 <td><?php echo $valorHorario['horaInicio'] ?> a <?php echo $valorHorario['horaFin'] ?></i></b></h5></td>
-                                                <td><div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div></td>
+                                                <!-- <td><div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div></td> -->
                                         </tr>
         <?php
                                     }
@@ -321,12 +325,12 @@ require('../../../layout/menu.php');
             <th>Carrera</th>
             <th>Docente</th>
             <th>Horario</th>
-            <th>Terminar</th>
+            <!-- <th>Terminar</th> -->
         </tr>
     </tfoot>
 </table>
-
-        <h4>Turno noche</h4>
+<br><hr><br>
+        <h4 class="tituloDocente2">Turno noche</h4>
         <table id="tabla_noche" class="table table-striped" style="width:100%">
     <thead>
         <tr>
@@ -336,7 +340,7 @@ require('../../../layout/menu.php');
             <th>Carrera</th>
             <th>Docente</th>
             <th>Horario</th>
-            <th>Terminar</th>
+            <!-- <th>Terminar</th> -->
         </tr>
     </thead>
     <tbody>
@@ -347,9 +351,9 @@ require('../../../layout/menu.php');
             $datosMaterias= $tablaMaterias->where("idMateria","=",$valorClase['idMateria'])->get();
             foreach ($datosMaterias as $valorMateria) {
             // convertimos las fechas de inicio y fin en numeros enteros
-            $valorStringInicio = $valorMateria['fechaInicio'];
+            $valorStringInicio = $valorClase['fechaInicio'];
             $valorEnteroInicio = str_replace("-", "", $valorStringInicio);
-            $valorStringFin = $valorMateria['fechaFin'];
+            $valorStringFin = $valorClase['fechaFin'];
             $valorEnteroFin = str_replace("-", "", $valorStringFin);
             // comparamos los valores con la fecha actual
             $diferenciaInicio = $fechaHoy - $valorEnteroInicio;
@@ -358,11 +362,11 @@ require('../../../layout/menu.php');
             if ($diferenciaInicio >= 0 && $diferenciaFin <= 0) {
 
                 // extraemos los datos de la tabla horarios con los idMateria ya seleccionados en fecha
-                $datosHorarios = $tablaHorarios->where("idMateria", "=", $valorMateria['idMateria'])->get();
+                $datosHorarios = $tablaHorarios->where("idClase", "=", $valorClase['idClase'])->get();
                 foreach ($datosHorarios as $valorHorario) {
 
                     //seleccionar solo datos que esten hoy
-                    if ($valorHorario["$dia"] == 1) {
+                    if ($valorHorario["$diaComparar"] == 1) {
                         // convertimos en enteros las hora inicio y fin
                         $horaInicioString = $valorHorario['horaInicio'];
                         $horaInicioEntero = str_replace(":", "", $horaInicioString);
@@ -373,7 +377,7 @@ require('../../../layout/menu.php');
                         $diferenciaHoraFin = $hora - $horaFinEntero;
                         // seleccionamos todos los datos que esten en el horario mañana, tarde o noche
                         if ($horaInicioEntero >= 180000 && $horaFinEntero <= 220000) {
-                            $datosDocentes = $tablaDocentes->where("idDocente", "=", $valorClase['idDocente'])->get();
+                            $datosDocentes = $tablaPersonas->where("id_persona", "=", $valorClase['id_persona'])->get();
                             $datosAulas = $tablaAulas->where("idAula", "=", $valorClase['idAula'])->get();
                             $datosCarreras = $tablaCarreras->where("idCarrera", "=", $valorClase['idCarrera'])->get();
                             foreach ($datosDocentes as $valorDocente) {
@@ -381,13 +385,13 @@ require('../../../layout/menu.php');
                                     foreach ($datosCarreras as $valorCarrera) {
         ?>
         <tr>
-                                                <td><?php echo $valorClase['cod_oferta'] ?></td>
+                                                <td><?php echo $valorClase['idClase'] ?></td>
                                                 <td><?php echo $valorAula['aula'] ?></td>
                                                 <td><?php echo $valorMateria['materia'] ?></td>
                                                 <td><?php echo $valorCarrera['carrera'] ?></td>
                                                 <td><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></td>
                                                 <td><?php echo $valorHorario['horaInicio'] ?> a <?php echo $valorHorario['horaFin'] ?></td>
-                                                <td><div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div></td>
+                                                <!-- <td><div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div></td> -->
         </tr>
         <?php
                                     }
@@ -409,237 +413,250 @@ require('../../../layout/menu.php');
             <th>Carrera</th>
             <th>Docente</th>
             <th>Horario</th>
-            <th>Terminar</th>
+            <!-- <th>Terminar</th> -->
         </tr>
     </tfoot>
 </table>
-
+</div>
+</div>
 
 <br><br>
+<div class="aulas_vacias">
 <div id="acord">
 
-    <h4 class="tituloDocente">Aulas por Bloques:</h4>
+    <h4 class="tituloDocente">Aulas vacias:</h4>
     <hr>
     <div class="acordeon">
         <!-- Prueba, extraer datos en orden -->
         <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "infocal";
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-        $band = false;
-        $sql = "SELECT * FROM aulas ORDER BY aula";
-        $result = $conn->query($sql);
-        $manana = '100000';
-        $manana1 = '120000';
-        ?>
-        <div class="bloque activo">
-            <h2 class="h2">Bloque A</h2>
-            <div class="contenido">
-                <div class="filaDisponible" id="fila">
-                    <?php
-                    $sql1 = "SELECT DISTINCT idAula FROM clases ORDER BY idAula";
-                    $result1 = $conn->query($sql1);
-                    $aulasOcupadas = $tablaMaterias->get();
-                    foreach ($result1 as $valorAulaO) {
-                        foreach ($result as $valorAula) {
-                            if ($valorAulaO['idAula'] != $valorAula['idAula']) {
-                                $aulasA = substr($valorAula['aula'], 0, 1);
-                                if ($aulasA === "A") {
-                    ?>
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "infocal4";
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            $sql = "SELECT * FROM aulas ORDER BY aula";
+            $todasAulas = $conn->query($sql);
+            $sql1 = "SELECT DISTINCT idAula FROM clases ORDER BY idAula";
+            $aulasOcupadas = $conn->query($sql1);
+            $c = 0;
+            $c1 = 0;
+            $datos = array();
+            $datos1 = array();
+            foreach ($aulasOcupadas as $valor) {
+                $datos[$c1] = $valor['idAula'];
+                $c1++;
+            }
+            foreach ($todasAulas as $valor) {
+                $datos1[$c] = $valor['idAula'];
+                $c++;
+            }
+            $resultado = array_diff($datos1, $datos);
+            $b = array_values($resultado);
+            $cont = count($b);
+            ?>
+            <div class="bloque activo">
+                <h2 class="h2">Bloque A</h2>
+                <div class="contenido">
+                    <div class="filaDisponible" id="fila">
+                        <?php
+                        foreach ($b as $key) {
+                            $sql3 = 'SELECT * FROM aulas WHERE idAula = "' . $key . '" ORDER BY aula';
+                            $aula = $conn->query($sql3);
+                            foreach ($aula as $aulaDisponible) {
+                                $aulaA = substr($aulaDisponible['aula'], 0, 1);
+                                if ($aulaA == "A") {
+                        ?>
                                     <div class="columnaDisponible">
                                         <div class="cardDisponible">
                                             <i class="fas fa-users iconoTarjetaDisponible"></i><br>
-                                            <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $valorAula['aula'] ?></b></h4>
+                                            <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $aulaDisponible['aula'] ?></b></h4>
                                         </div>
                                     </div>
-                    <?php
+                        <?php
                                 }
+                            }
+                        }
+                        ?>
+
+                    </div>
+                </div>
+            </div>
+            <div class="bloque">
+                <h2 class="h2">Bloque B</h2>
+                <div class="contenido">
+                    <?php
+                    foreach ($b as $key) {
+                        $sql3 = 'SELECT * FROM aulas WHERE idAula = "' . $key . '" ORDER BY aula';
+                        $aula = $conn->query($sql3);
+                        foreach ($aula as $aulaDisponible) {
+                            $aulaA = substr($aulaDisponible['aula'], 0, 1);
+                            if ($aulaA == "B") {
+                    ?>
+                                <div class="columnaDisponible">
+                                    <div class="cardDisponible">
+                                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
+                                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $aulaDisponible['aula'] ?></b></h4>
+                                    </div>
+                                </div>
+                    <?php
                             }
                         }
                     }
                     ?>
-
                 </div>
             </div>
-        </div>
-        <div class="bloque">
-            <h2 class="h2">Bloque B</h2>
-            <div class="contenido">
-                <?php
-foreach ($result1 as $valorAulaO) {
-    foreach ($result as $valorAula) {
-        if ($valorAulaO['idAula'] != $valorAula['idAula']) {
-            $aulasA = substr($valorAula['aula'], 0, 1);
-            if ($aulasA === "B") {
-?>
-                <div class="columnaDisponible">
-                    <div class="cardDisponible">
-                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
-                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $valorAula['aula'] ?></b></h4>
-                    </div>
+            <div class="bloque">
+                <h2 class="h2">Bloque C</h2>
+                <div class="contenido">
+                    <?php
+                    foreach ($b as $key) {
+                        $sql3 = 'SELECT * FROM aulas WHERE idAula = "' . $key . '" ORDER BY aula';
+                        $aula = $conn->query($sql3);
+                        foreach ($aula as $aulaDisponible) {
+                            $aulaA = substr($aulaDisponible['aula'], 0, 1);
+                            if ($aulaA == "C") {
+                    ?>
+                                <div class="columnaDisponible">
+                                    <div class="cardDisponible">
+                                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
+                                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $aulaDisponible['aula'] ?></b></h4>
+                                    </div>
+                                </div>
+                    <?php
+                            }
+                        }
+                    }
+                    ?>
                 </div>
-<?php
-            }
-        }
-    }
-}
-                ?>
             </div>
-        </div>
-        <div class="bloque">
-            <h2 class="h2">Bloque C</h2>
-            <div class="contenido">
-                <?php
-foreach ($result1 as $valorAulaO) {
-    foreach ($result as $valorAula) {
-        if ($valorAulaO['idAula'] != $valorAula['idAula']) {
-            $aulasA = substr($valorAula['aula'], 0, 1);
-            if ($aulasA === "C") {
-?>
-                <div class="columnaDisponible">
-                    <div class="cardDisponible">
-                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
-                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $valorAula['aula'] ?></b></h4>
-                    </div>
+            <div class="bloque">
+                <h2 class="h2">Bloque D</h2>
+                <div class="contenido">
+                    <?php
+                    foreach ($b as $key) {
+                        $sql3 = 'SELECT * FROM aulas WHERE idAula = "' . $key . '" ORDER BY aula';
+                        $aula = $conn->query($sql3);
+                        foreach ($aula as $aulaDisponible) {
+                            $aulaA = substr($aulaDisponible['aula'], 0, 1);
+                            if ($aulaA == "D") {
+                    ?>
+                                <div class="columnaDisponible">
+                                    <div class="cardDisponible">
+                                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
+                                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $aulaDisponible['aula'] ?></b></h4>
+                                    </div>
+                                </div>
+                    <?php
+                            }
+                        }
+                    }
+                    ?>
                 </div>
-<?php
-            }
-        }
-    }
-}
-                ?>
             </div>
-        </div>
-        <div class="bloque">
-            <h2 class="h2">Bloque D</h2>
-            <div class="contenido">
-                <?php
-foreach ($result1 as $valorAulaO) {
-    foreach ($result as $valorAula) {
-        if ($valorAulaO['idAula'] != $valorAula['idAula']) {
-            $aulasA = substr($valorAula['aula'], 0, 1);
-            if ($aulasA === "D") {
-?>
-                <div class="columnaDisponible">
-                    <div class="cardDisponible">
-                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
-                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $valorAula['aula'] ?></b></h4>
-                    </div>
+            <div class="bloque">
+                <h2 class="h2">Bloque E</h2>
+                <div class="contenido">
+                    <?php
+                    foreach ($b as $key) {
+                        $sql3 = 'SELECT * FROM aulas WHERE idAula = "' . $key . '" ORDER BY aula';
+                        $aula = $conn->query($sql3);
+                        foreach ($aula as $aulaDisponible) {
+                            $aulaA = substr($aulaDisponible['aula'], 0, 1);
+                            if ($aulaA == "E") {
+                    ?>
+                                <div class="columnaDisponible">
+                                    <div class="cardDisponible">
+                                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
+                                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $aulaDisponible['aula'] ?></b></h4>
+                                    </div>
+                                </div>
+                    <?php
+                            }
+                        }
+                    }
+                    ?>
                 </div>
-<?php
-            }
-        }
-    }
-}
-                ?>
             </div>
-        </div>
-        <div class="bloque">
-            <h2 class="h2">Bloque E</h2>
-            <div class="contenido">
-                <?php
-foreach ($result1 as $valorAulaO) {
-    foreach ($result as $valorAula) {
-        if ($valorAulaO['idAula'] != $valorAula['idAula']) {
-            $aulasA = substr($valorAula['aula'], 0, 1);
-            if ($aulasA === "E") {
-?>
-                <div class="columnaDisponible">
-                    <div class="cardDisponible">
-                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
-                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $valorAula['aula'] ?></b></h4>
-                    </div>
+            <div class="bloque">
+                <h2 class="h2">Bloque F</h2>
+                <div class="contenido">
+                    <?php
+                    foreach ($b as $key) {
+                        $sql3 = 'SELECT * FROM aulas WHERE idAula = "' . $key . '" ORDER BY aula';
+                        $aula = $conn->query($sql3);
+                        foreach ($aula as $aulaDisponible) {
+                            $aulaA = substr($aulaDisponible['aula'], 0, 1);
+                            if ($aulaA == "F") {
+                    ?>
+                                <div class="columnaDisponible">
+                                    <div class="cardDisponible">
+                                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
+                                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $aulaDisponible['aula'] ?></b></h4>
+                                    </div>
+                                </div>
+                    <?php
+                            }
+                        }
+                    }
+                    ?>
                 </div>
-<?php
-            }
-        }
-    }
-}
-                ?>
             </div>
-        </div>
-        <div class="bloque">
-            <h2 class="h2">Bloque F</h2>
-            <div class="contenido">
-                <?php
-foreach ($result1 as $valorAulaO) {
-    foreach ($result as $valorAula) {
-        if ($valorAulaO['idAula'] != $valorAula['idAula']) {
-            $aulasA = substr($valorAula['aula'], 0, 1);
-            if ($aulasA === "F") {
-?>
-                <div class="columnaDisponible">
-                    <div class="cardDisponible">
-                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
-                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $valorAula['aula'] ?></b></h4>
-                    </div>
+            <div class="bloque">
+                <h2 class="h2">Bloque G</h2>
+                <div class="contenido">
+                    <?php
+                    foreach ($b as $key) {
+                        $sql3 = 'SELECT * FROM aulas WHERE idAula = "' . $key . '" ORDER BY aula';
+                        $aula = $conn->query($sql3);
+                        foreach ($aula as $aulaDisponible) {
+                            $aulaA = substr($aulaDisponible['aula'], 0, 1);
+                            if ($aulaA == "G") {
+                    ?>
+                                <div class="columnaDisponible">
+                                    <div class="cardDisponible">
+                                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
+                                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $aulaDisponible['aula'] ?></b></h4>
+                                    </div>
+                                </div>
+                    <?php
+                            }
+                        }
+                    }
+                    ?>
                 </div>
-<?php
-            }
-        }
-    }
-}
-                ?>
             </div>
-        </div>
-        <div class="bloque">
-            <h2 class="h2">Bloque G</h2>
-            <div class="contenido">
-                <?php
-foreach ($result1 as $valorAulaO) {
-    foreach ($result as $valorAula) {
-        if ($valorAulaO['idAula'] != $valorAula['idAula']) {
-            $aulasA = substr($valorAula['aula'], 0, 1);
-            if ($aulasA === "G") {
-?>
-                <div class="columnaDisponible">
-                    <div class="cardDisponible">
-                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
-                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $valorAula['aula'] ?></b></h4>
+            <div class="bloque">
+                <h2 class="h2">Bloque H</h2>
+                <div class="contenido">
+                    <?php
+                    foreach ($b as $key) {
+                        $sql3 = 'SELECT * FROM aulas WHERE idAula = "' . $key . '" ORDER BY aula';
+                        $aula = $conn->query($sql3);
+                        foreach ($aula as $aulaDisponible) {
+                            $aulaA = substr($aulaDisponible['aula'], 0, 1);
+                            if ($aulaA == "H") {
+                    ?>
+                                <div class="columnaDisponible">
+                                    <div class="cardDisponible">
+                                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
+                                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $aulaDisponible['aula'] ?></b></h4>
+                                    </div>
+                                </div>
+                    <?php
+                            }
+                        }
+                    }
+                    ?>
                     </div>
                 </div>
-<?php
-            }
-        }
-    }
-}
-                ?>
-            </div>
-        </div>
-        <div class="bloque">
-            <h2 class="h2">Bloque H</h2>
-            <div class="contenido">
-                <?php
-foreach ($result1 as $valorAulaO) {
-    foreach ($result as $valorAula) {
-        if ($valorAulaO['idAula'] != $valorAula['idAula']) {
-            $aulasA = substr($valorAula['aula'], 0, 1);
-            if ($aulasA === "H") {
-?>
-                <div class="columnaDisponible">
-                    <div class="cardDisponible">
-                        <i class="fas fa-users iconoTarjetaDisponible"></i><br>
-                        <h4 class="tituloTarjetaDisponible">Aula: <b><?php echo $valorAula['aula'] ?></b></h4>
-                    </div>
-                </div>
-<?php
-            }
-        }
-    }
-}
-                ?>
             </div>
         </div>
     </div>
-
-</div>
 
 
 <!-- Formularios confirmar que se recibio la llave -->
@@ -647,7 +664,7 @@ foreach ($result1 as $valorAulaO) {
 <div class="modal-container" id="modal-container">
     <div class="modal-content">
         <form>
-            <h5 class="tituloModal">Confirmar que recibí la llave</h5>
+            <h5 class="tituloModal">Confirmar la devolución de llave</h5>
             <div class="botones">
                 <button type="submit" id="quitarRecurso">Si</button>
                 <button type="submit" id="cerrarModal">No</button>
@@ -667,10 +684,10 @@ foreach ($result1 as $valorAulaO) {
 <div class="modal-container1" id="modal-container1">
     <div class="modal-content1">
         <form>
-            <h5 class="tituloModal">Confirmar que entregué la llave</h5>
+            <h5 class="tituloModal">Confirmar la salida de llave</h5>
             <div class="botones">
-                <button type="submit" id="quitarRecurso1">Si</button>
-                <button type="submit" id="cerrarModal1">No</button>
+                <button class="btn btn-success" type="submit" id="quitarRecurso1">Si</button>
+                <button class="btn btn-warning" type="submit" id="cerrarModal1">No</button>
             </div>
         </form>
     </div>

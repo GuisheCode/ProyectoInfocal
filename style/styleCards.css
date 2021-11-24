@@ -108,7 +108,7 @@ Define numero de columnas */
 }
 .columnaDisponible {
 	float: left;
-	width: 15%;
+	width: 10%;
 	padding: 0 5px;
 	padding-bottom: 15px;
 	/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
@@ -124,11 +124,11 @@ Define numero de columnas */
 	float: left;
 	width: 100%;
 	border-radius: 15px;
-	height: 150px;
+	height: 80px;
 	background: radial-gradient(
 		circle farthest-corner at 85.4% 50.8%,
-		#25d415 0%,
-		#009f15 74.2%
+		#058ED9,
+		#058ED9
 	);
 }
 .dentroDisponible {
@@ -141,15 +141,15 @@ Define numero de columnas */
 }
 .tituloTarjetaDisponible {
 	font-family: "Roboto", sans-serif;
-	font-weight: 200;
+	font-weight: 500;
 	font-size: 19px;
-	color: white;
+	color: rgb(255, 255, 255);
 	text-align: center;
 }
 .iconoTarjetaDisponible {
 	/* float: left; */
 	padding-top: 25px;
-	font-size: 50px;
+	font-size: 20px;
 	color: rgb(255, 255, 255);
 	text-align: center;
 }
@@ -177,8 +177,13 @@ Define numero de columnas */
 }
 .tituloDocente {
 	font-family: "Roboto", sans-serif;
-	font-weight: 300;
+	font-weight: 600;
 	font-size: 28px;
+}
+.tituloDocente2 {
+	font-family: "Roboto", sans-serif;
+	font-weight: 600;
+	font-size: 24px;
 }
 hr {
 	border: 2px solid rgb(182, 182, 182);
@@ -239,7 +244,7 @@ hr {
 	}
 	.tituloDocente {
 		font-family: "Roboto", sans-serif;
-		font-weight: 300;
+		font-weight: 600;
 		font-size: 25px;
 	}
 	.iconoTarjeta {

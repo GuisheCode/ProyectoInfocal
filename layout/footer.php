@@ -6,7 +6,7 @@
     $('#tabla_actual').DataTable({
     "language":{
     "decimal":        "",
-    "emptyTable":     "No data available in table",
+    "emptyTable":     "No hay datos para mostrar",
     "info":           "Viendo _START_ de _END_ de _TOTAL_ entradas",
     "infoEmpty":      "Viendo 0 de 0 de 0 entradas",
     "infoFiltered":   "(filtered from _MAX_ total entries)",
@@ -16,12 +16,12 @@
     "loadingRecords": "Cargando...",
     "processing":     "Procesando...",
     "search":         "Buscar:",
-    "zeroRecords":    "No matching records found",
+    "zeroRecords":    "No se encontraron resultados",
     "paginate": {
         "first":      "First",
         "last":       "Last",
-        "next":       "Next",
-        "previous":   "Previous"
+        "next":       "Siguiente",
+        "previous":   "Anterior"
     },
     "aria": {
         "sortAscending":  ": activate to sort column ascending",
@@ -36,7 +36,7 @@
     $('#tabla_manana').DataTable({
     "language":{
     "decimal":        "",
-    "emptyTable":     "No data available in table",
+    "emptyTable":     "No hay datos para mostrar",
     "info":           "Viendo _START_ de _END_ de _TOTAL_ entradas",
     "infoEmpty":      "Viendo 0 de 0 de 0 entradas",
     "infoFiltered":   "(filtered from _MAX_ total entries)",
@@ -46,12 +46,12 @@
     "loadingRecords": "Cargando...",
     "processing":     "Procesando...",
     "search":         "Buscar:",
-    "zeroRecords":    "No matching records found",
+    "zeroRecords":    "No se encontraron resultados",
     "paginate": {
         "first":      "First",
         "last":       "Last",
-        "next":       "Next",
-        "previous":   "Previous"
+        "next":       "Siguiente",
+        "previous":   "Anterior"
     },
     "aria": {
         "sortAscending":  ": activate to sort column ascending",
@@ -66,7 +66,7 @@
     $('#tabla_tarde').DataTable({
     "language":{
     "decimal":        "",
-    "emptyTable":     "No data available in table",
+    "emptyTable":     "No hay datos para mostrar",
     "info":           "Viendo _START_ de _END_ de _TOTAL_ entradas",
     "infoEmpty":      "Viendo 0 de 0 de 0 entradas",
     "infoFiltered":   "(filtered from _MAX_ total entries)",
@@ -76,12 +76,12 @@
     "loadingRecords": "Cargando...",
     "processing":     "Procesando...",
     "search":         "Buscar:",
-    "zeroRecords":    "No matching records found",
+    "zeroRecords":    "No se encontraron resultados",
     "paginate": {
         "first":      "First",
         "last":       "Last",
-        "next":       "Next",
-        "previous":   "Previous"
+        "next":       "Anterior",
+        "previous":   "Siguiente"
     },
     "aria": {
         "sortAscending":  ": activate to sort column ascending",
@@ -96,7 +96,7 @@
     $('#tabla_noche').DataTable({
     "language":{
     "decimal":        "",
-    "emptyTable":     "No data available in table",
+    "emptyTable":     "No hay datos para mostrar",
     "info":           "Viendo _START_ de _END_ de _TOTAL_ entradas",
     "infoEmpty":      "Viendo 0 de 0 de 0 entradas",
     "infoFiltered":   "(filtered from _MAX_ total entries)",
@@ -106,12 +106,12 @@
     "loadingRecords": "Cargando...",
     "processing":     "Procesando...",
     "search":         "Buscar:",
-    "zeroRecords":    "No matching records found",
+    "zeroRecords":    "No se encontraron resultados",
     "paginate": {
         "first":      "First",
         "last":       "Last",
-        "next":       "Next",
-        "previous":   "Previous"
+        "next":       "Seguiente",
+        "previous":   "Anterior"
     },
     "aria": {
         "sortAscending":  ": activate to sort column ascending",
@@ -126,7 +126,7 @@
     $('#tabla_clases').DataTable({
     "language":{
     "decimal":        "",
-    "emptyTable":     "No data available in table",
+    "emptyTable":     "No hay datos para mostrar",
     "info":           "Viendo _START_ de _END_ de _TOTAL_ entradas",
     "infoEmpty":      "Viendo 0 de 0 de 0 entradas",
     "infoFiltered":   "(filtered from _MAX_ total entries)",
@@ -136,12 +136,12 @@
     "loadingRecords": "Cargando...",
     "processing":     "Procesando...",
     "search":         "Buscar:",
-    "zeroRecords":    "No matching records found",
+    "zeroRecords":    "No se encontraron resultados",
     "paginate": {
         "first":      "First",
         "last":       "Last",
-        "next":       "Next",
-        "previous":   "Previous"
+        "next":       "Siguiente",
+        "previous":   "Anterior"
     },
     "aria": {
         "sortAscending":  ": activate to sort column ascending",
@@ -177,13 +177,14 @@
         })
         .done(function (res) {
             $('#respuesta').html(res);
-            $("#fila").load(" #fila");
+            // $("#fila").load(" #fila");
             modal_container.classList.remove('show')
             modal_success.classList.add('show');
             setTimeout(function(){ 
                 modal_success.classList.remove('show');
                 // $("#modales").load(" #modales");
-            }, 1800);
+                window.location.reload();
+            }, 1500);
         })
         .fail(function () {
             console.log("error");
@@ -231,13 +232,14 @@ modal_container.addEventListener('click', e=> {
         })
         .done(function (res1) {
             $('#respuesta1').html(res1);
-            $("#fila").load(" #fila");
+            // $("#fila").load(" #fila");
             modal_container1.classList.remove('show')
             modal_success1.classList.add('show');
             setTimeout(function(){ 
                 modal_success1.classList.remove('show');
                 // $("#modales").load(" #modales");
-            }, 1800);
+                window.location.reload();
+            }, 1500);
         })
         .fail(function () {
             console.log("error");

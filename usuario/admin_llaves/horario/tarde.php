@@ -10,6 +10,7 @@ $diaIngles = date('l');
 $mesIngles = date('F');
 $dia = traducirDia($diaIngles);
 $mes = traducirMes($mesIngles);
+$diaComparar=traducirDiaComparar($diaIngles);
 // Si no ha iniciado sesion, lo redirige ala ventana login
 if (!$user->is_logged_in()) {
     header('Location: ../../../login.php');
@@ -33,8 +34,8 @@ $title = 'Turno tarde';
 require('../../../layout/header.php');
 require('../../../layout/menu.php');
 ?>
-<div>
-    <ul>
+<div class="divnav">
+    <ul class="listaentera">
         <li class="lista" style="float:left">
             <h4 class="fecha"><?php echo $dia . ", " . date('d') . " de " . $mes . " de " . date('Y') ?></h4>
         </li>
@@ -57,10 +58,11 @@ require('../../../layout/menu.php');
 <?php
 $hora = date('Gis');
 $hora = "130000";
-$dia = "Viernes";
+$diaComparar = "viernes";
 ?>
-<h4 class="tituloDocente">Turno Tarde - 12:00 hrs a 18:00 hrs</h4>
+<h4 class="tituloDocente" style="text-align:center">Turno Tarde - 12:00 hrs a 18:00 hrs</h4>
 <br><br><br>
+<div class="clase_actual">
 <h4 class="tituloDocente">En clases actualmente</h4>
 <hr>
 <table id="tabla_actual" class="table table-striped" style="width:100%">
@@ -81,7 +83,7 @@ $dia = "Viernes";
         $tablaClases = new Crud("clases");
         $tablaMaterias = new Crud("materias");
         $tablaHorarios = new Crud("horarios");
-        $tablaDocentes = new Crud("docentes");
+        $tablaPersonas = new Crud("personas");
         $tablaAulas = new Crud("aulas");
         $tablaCarreras = new Crud("carreras");
         $tablaRecursos = new Crud("recursos");
@@ -90,9 +92,9 @@ $dia = "Viernes";
             $datosMaterias = $tablaMaterias->where("idMateria", "=", $valorClases['idMateria'])->get();
             foreach ($datosMaterias as $valorMateria) {
                 // convertimos las fechas de inicio y fin en numeros enteros
-                $valorStringInicio = $valorMateria['fechaInicio'];
+                $valorStringInicio = $valorClases['fechaInicio'];
                 $valorEnteroInicio = str_replace("-", "", $valorStringInicio);
-                $valorStringFin = $valorMateria['fechaFin'];
+                $valorStringFin = $valorClases['fechaFin'];
                 $valorEnteroFin = str_replace("-", "", $valorStringFin);
                 // comparamos los valores con la fecha actual
                 $diferenciaInicio = $fechaHoy - $valorEnteroInicio;
@@ -100,10 +102,10 @@ $dia = "Viernes";
                 // si la diferencia con la fecha inicio es mayor o igual a 0 y si la diferencia con la fecha fin es menor o igual a 0, estan sucediendo
                 if ($diferenciaInicio >= 0 && $diferenciaFin <= 0) {
                     // extraemos los datos de la tabla horarios con los idMateria ya seleccionados en fecha
-                    $datosHorarios = $tablaHorarios->where("idMateria", "=", $valorClases['idMateria'])->get();
+                    $datosHorarios = $tablaHorarios->where("idClase", "=", $valorClases['idClase'])->get();
                     foreach ($datosHorarios as $valorHorario) {
                         //seleccionar solo datos que esten hoy
-                        if ($valorHorario["$dia"] == 1) {
+                        if ($valorHorario["$diaComparar"] == 1) {
                             // convertimos en enteros las hora inicio y fin
                             $horaInicioString = $valorHorario['horaInicio'];
                             $horaInicioEntero = str_replace(":", "", $horaInicioString);
@@ -113,7 +115,7 @@ $dia = "Viernes";
                             $diferenciaHoraFin = $hora - $horaFinEntero;
                             // seleccionamos todos los datos que esten en el horario mañana, tarde o noche
                             if ($horaInicioEntero >= 120000 && $horaFinEntero <= 180000) {
-                                $datosDocentes = $tablaDocentes->where("idDocente", "=", $valorClases['idDocente'])->get();
+                                $datosDocentes = $tablaPersonas->where("id_persona", "=", $valorClases['id_persona'])->get();
                                 $datosAulas = $tablaAulas->where("idAula", "=", $valorClases['idAula'])->get();
                                 $datosCarreras = $tablaCarreras->where("idCarrera", "=", $valorClases['idCarrera'])->get();
                                 foreach ($datosDocentes as $valorDocente) {
@@ -121,14 +123,14 @@ $dia = "Viernes";
                                         foreach ($datosCarreras as $valorCarrera) {
         ?>
                                             <tr>
-                                                <td><?php echo $valorClases['cod_oferta'] ?> </td>
+                                                <td><?php echo $valorClases['idClase'] ?> </td>
                                                 <td><?php echo $valorAula['aula'] ?></td>
                                                 <td><?php echo $valorMateria['materia'] ?></td>
                                                 <td><?php echo $valorCarrera['carrera'] ?></td>
                                                 <td><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></td>
                                                 <td><?php echo $valorHorario['horaInicio'] ?> a <?php echo $valorHorario['horaFin'] ?></td>
                                                 <td>
-                                                    <div class="divBtnRec"><button type="button" id="abrirModal" onclick="capturarIdMateria(<?php echo $valorClases['idClase']; ?>)">Terminar</button></div>
+                                                    <div class="divBtnRec"><button class="btn btn-danger" type="button" id="abrirModal" onclick="capturarIdMateria(<?php echo $valorClases['idClase']; ?>)">Terminar</button></div>
                                                 </td>
                                             </tr>
         <?php
@@ -155,11 +157,13 @@ $dia = "Viernes";
         </tr>
     </tfoot>
 </table>
+</div>
 <br><br>
+<div class="clase_proxima">
 <h4 class="tituloDocente">Clases que se aproximan:</h4>
-<hr>
+<hr><br><br>
 <div>
-    <h4>Turno tarde</h4>
+    <h4 class="tituloDocente2">Turno tarde</h4>
     <table id="tabla_tarde" class="table table-striped" style="width:100%">
         <thead>
             <tr>
@@ -169,7 +173,7 @@ $dia = "Viernes";
                 <th>Carrera</th>
                 <th>Docente</th>
                 <th>Horario</th>
-                <th>Terminar</th>
+                <th>Iniciar</th>
             </tr>
         </thead>
         <tbody>
@@ -181,9 +185,9 @@ $dia = "Viernes";
                 $datosMaterias = $tablaMaterias->where("idMateria", "=", $valorClase['idMateria'])->get();
                 foreach ($datosMaterias as $valorMateria) {
                     // convertimos las fechas de inicio y fin en numeros enteros
-                    $valorStringInicio = $valorMateria['fechaInicio'];
+                    $valorStringInicio = $valorClase['fechaInicio'];
                     $valorEnteroInicio = str_replace("-", "", $valorStringInicio);
-                    $valorStringFin = $valorMateria['fechaFin'];
+                    $valorStringFin = $valorClase['fechaFin'];
                     $valorEnteroFin = str_replace("-", "", $valorStringFin);
                     // comparamos los valores con la fecha actual
                     $diferenciaInicio = $fechaHoy - $valorEnteroInicio;
@@ -191,10 +195,10 @@ $dia = "Viernes";
                     // si la diferencia con la fecha inicio es mayor o igual a 0 y si la diferencia con la fecha fin es menor o igual a 0, estan sucediendo
                     if ($diferenciaInicio >= 0 && $diferenciaFin <= 0) {
                         // extraemos los datos de la tabla horarios con los idMateria ya seleccionados en fecha
-                        $datosHorarios = $tablaHorarios->where("idMateria", "=", $valorClase['idMateria'])->get();
+                        $datosHorarios = $tablaHorarios->where("idClase", "=", $valorClase['idClase'])->get();
                         foreach ($datosHorarios as $valorHorario) {
                             //seleccionar solo datos que esten hoy
-                            if ($valorHorario["$dia"] == 1) {
+                            if ($valorHorario["$diaComparar"] == 1) {
                                 // convertimos en enteros las hora inicio y fin
                                 $horaInicioString = $valorHorario['horaInicio'];
                                 $horaInicioEntero = str_replace(":", "", $horaInicioString);
@@ -204,7 +208,7 @@ $dia = "Viernes";
                                 $diferenciaHoraFin = $hora - $horaFinEntero;
                                 // seleccionamos todos los datos que esten en el horario mañana, tarde o noche
                                 if ($horaInicioEntero >= 120000 && $horaFinEntero <= 180000) {
-                                    $datosDocentes = $tablaDocentes->where("idDocente", "=", $valorClase['idDocente'])->get();
+                                    $datosDocentes = $tablaPersonas->where("id_persona", "=", $valorClase['id_persona'])->get();
                                     $datosAulas = $tablaAulas->where("idAula", "=", $valorClase['idAula'])->get();
                                     $datosCarreras = $tablaCarreras->where("idCarrera", "=", $valorClase['idCarrera'])->get();
                                     foreach ($datosDocentes as $valorDocente) {
@@ -212,14 +216,14 @@ $dia = "Viernes";
                                             foreach ($datosCarreras as $valorCarrera) {
             ?>
                                                 <tr>
-                                                    <td><?php echo $valorClase['cod_oferta'] ?></td>
+                                                    <td><?php echo $valorClase['idClase'] ?></td>
                                                     <td><?php echo $valorAula['aula'] ?></td>
                                                     <td><?php echo $valorMateria['materia'] ?></td>
                                                     <td><?php echo $valorCarrera['carrera'] ?></td>
                                                     <td><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></td>
                                                     <td><?php echo $valorHorario['horaInicio'] ?> a <?php echo $valorHorario['horaFin'] ?></td>
                                                     <td>
-                                                        <div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div>
+                                                        <div class="divBtnRec"><button class="btn btn-primary" type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div>
                                                     </td>
                                                 </tr>
             <?php
@@ -242,12 +246,12 @@ $dia = "Viernes";
                 <th>Carrera</th>
                 <th>Docente</th>
                 <th>Horario</th>
-                <th>Terminar</th>
+                <th>Iniciar</th>
             </tr>
         </tfoot>
     </table>
-
-    <h4>Turno noche</h4>
+<br><hr><br>
+    <h4 class="tituloDocente2">Turno noche</h4>
     <table id="tabla_noche" class="table table-striped" style="width:100%">
         <thead>
             <tr>
@@ -257,7 +261,7 @@ $dia = "Viernes";
                 <th>Carrera</th>
                 <th>Docente</th>
                 <th>Horario</th>
-                <th>Terminar</th>
+                <!-- <th>Terminar</th> -->
             </tr>
         </thead>
         <tbody>
@@ -269,9 +273,9 @@ $dia = "Viernes";
                 $datosMaterias = $tablaMaterias->where("idMateria", "=", $valorClase['idMateria'])->get();
                 foreach ($datosMaterias as $valorMateria) {
                     // convertimos las fechas de inicio y fin en numeros enteros
-                    $valorStringInicio = $valorMateria['fechaInicio'];
+                    $valorStringInicio = $valorClase['fechaInicio'];
                     $valorEnteroInicio = str_replace("-", "", $valorStringInicio);
-                    $valorStringFin = $valorMateria['fechaFin'];
+                    $valorStringFin = $valorClase['fechaFin'];
                     $valorEnteroFin = str_replace("-", "", $valorStringFin);
                     // comparamos los valores con la fecha actual
                     $diferenciaInicio = $fechaHoy - $valorEnteroInicio;
@@ -280,11 +284,11 @@ $dia = "Viernes";
                     if ($diferenciaInicio >= 0 && $diferenciaFin <= 0) {
 
                         // extraemos los datos de la tabla horarios con los idMateria ya seleccionados en fecha
-                        $datosHorarios = $tablaHorarios->where("idMateria", "=", $valorMateria['idMateria'])->get();
+                        $datosHorarios = $tablaHorarios->where("idClase", "=", $valorClase['idClase'])->get();
                         foreach ($datosHorarios as $valorHorario) {
 
                             //seleccionar solo datos que esten hoy
-                            if ($valorHorario["$dia"] == 1) {
+                            if ($valorHorario["$diaComparar"] == 1) {
                                 // convertimos en enteros las hora inicio y fin
                                 $horaInicioString = $valorHorario['horaInicio'];
                                 $horaInicioEntero = str_replace(":", "", $horaInicioString);
@@ -295,22 +299,22 @@ $dia = "Viernes";
                                 $diferenciaHoraFin = $hora - $horaFinEntero;
                                 // seleccionamos todos los datos que esten en el horario mañana, tarde o noche
                                 if ($horaInicioEntero >= 180000 && $horaFinEntero <= 220000) {
-                                    $datosDocentes = $tablaDocentes->where("idDocente", "=", $valorClase['idDocente'])->get();
+                                    $datosDocentes = $tablaPersonas->where("id_persona", "=", $valorClase['id_persona'])->get();
                                     $datosAulas = $tablaAulas->where("idAula", "=", $valorClase['idAula'])->get();
                                     $datosCarreras = $tablaCarreras->where("idCarrera", "=", $valorClase['idCarrera'])->get();
                                     foreach ($datosDocentes as $valorDocente) {
                                         foreach ($datosAulas as $valorAula) {
                                             foreach ($datosCarreras as $valorCarrera) {
             ?> <tr>
-                                                    <td><?php echo $valorClase['cod_oferta'] ?></td>
+                                                    <td><?php echo $valorClase['idClase'] ?></td>
                                                     <td><?php echo $valorAula['aula'] ?></td>
                                                     <td><?php echo $valorMateria['materia'] ?></td>
                                                     <td><?php echo $valorCarrera['carrera'] ?></td>
                                                     <td><?php echo $valorDocente['nombre'] . " " . $valorDocente['apellidos'] ?></td>
                                                     <td><?php echo $valorHorario['horaInicio'] ?> a <?php echo $valorHorario['horaFin'] ?></td>
-                                                    <td>
+                                                    <!-- <td>
                                                         <div class="divBtnRec"><button type="button" id="abrirModal1" onclick="capturarIdMateriaxd(<?php echo $valorClase['idClase']; ?>)">Iniciar</button></div>
-                                                    </td>
+                                                    </td> -->
                                                 </tr>
             <?php
                                             }
@@ -333,20 +337,24 @@ $dia = "Viernes";
                 <th>Carrera</th>
                 <th>Docente</th>
                 <th>Horario</th>
-                <th>Terminar</th>
+                <!-- <th>Terminar</th> -->
             </tr>
         </tfoot>
     </table>
+    </div>
+</div>
     <br><br>
 
 
     <?php
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // selecciona aulas vacias en rangos de horas definidas
     $datosfiltrados=array();
     $c4=0;
     $tablaClases = new Crud("clases");
     $tablaMaterias = new Crud("materias");
     $tablaHorarios = new Crud("horarios");
-    $tablaDocentes = new Crud("docentes");
+    $tablaPersonas = new Crud("personas");
     $tablaAulas = new Crud("aulas");
     $tablaCarreras = new Crud("carreras");
     $tablaRecursos = new Crud("recursos");
@@ -357,9 +365,9 @@ $dia = "Viernes";
         $datosMaterias = $tablaMaterias->where("idMateria", "=", $valorClases['idMateria'])->get();
         foreach ($datosMaterias as $valorMateria) {
             // convertimos las fechas de inicio y fin en numeros enteros
-            $valorStringInicio = $valorMateria['fechaInicio'];
+            $valorStringInicio = $valorClases['fechaInicio'];
             $valorEnteroInicio = str_replace("-", "", $valorStringInicio);
-            $valorStringFin = $valorMateria['fechaFin'];
+            $valorStringFin = $valorClases['fechaFin'];
             $valorEnteroFin = str_replace("-", "", $valorStringFin);
             // comparamos los valores con la fecha actual
             $diferenciaInicio = $fechaHoy - $valorEnteroInicio;
@@ -368,11 +376,11 @@ $dia = "Viernes";
             if ($diferenciaInicio >= 0 && $diferenciaFin <= 0) {
 
                 // extraemos los datos de la tabla horarios con los idMateria ya seleccionados en fecha
-                $datosHorarios = $tablaHorarios->where("idMateria", "=", $valorClases['idMateria'])->get();
+                $datosHorarios = $tablaHorarios->where("idClase", "=", $valorClases['idClase'])->get();
                 foreach ($datosHorarios as $valorHorario) {
 
                     //seleccionar solo datos que esten hoy
-                    if ($valorHorario["$dia"] == 1) {
+                    if ($valorHorario["$diaComparar"] == 1) {
                         // convertimos en enteros las hora inicio y fin
                         $horaInicioString = $valorHorario['horaInicio'];
                         $horaInicioEntero = str_replace(":", "", $horaInicioString);
@@ -395,15 +403,16 @@ $dia = "Viernes";
             }
         }
     }
-    var_dump($datosfiltrados);
-    echo $hora;
+    // var_dump($datosfiltrados);
+    // echo $hora;
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
     ?>
 
 
-
+<div class="aulas_vacias">
     <div id="acord">
 
-        <h4 class="tituloDocente">Aulas por Bloques:</h4>
+        <h4 class="tituloDocente">Aulas vacias:</h4>
         <hr>
         <div class="acordeon">
             <!-- Prueba, extraer datos en orden -->
@@ -411,7 +420,7 @@ $dia = "Viernes";
             $servername = "localhost";
             $username = "root";
             $password = "";
-            $dbname = "infocal";
+            $dbname = "infocal4";
             // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);
             // Check connection
@@ -631,6 +640,7 @@ $dia = "Viernes";
                         }
                     }
                     ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -640,7 +650,7 @@ $dia = "Viernes";
     <div class="modal-container" id="modal-container">
         <div class="modal-content">
             <form>
-                <h5 class="tituloModal">Confirmar que recibí la llave</h5>
+                <h5 class="tituloModal">Confirmar la devolución de llave</h5>
                 <div class="botones">
                     <button type="submit" id="quitarRecurso">Si</button>
                     <button type="submit" id="cerrarModal">No</button>
@@ -660,7 +670,7 @@ $dia = "Viernes";
     <div class="modal-container1" id="modal-container1">
         <div class="modal-content1">
             <form>
-                <h5 class="tituloModal">Confirmar que entregué la llave</h5>
+                <h5 class="tituloModal">Confirmar la salida de llave</h5>
                 <div class="botones">
                     <button type="submit" id="quitarRecurso1">Si</button>
                     <button type="submit" id="cerrarModal1">No</button>

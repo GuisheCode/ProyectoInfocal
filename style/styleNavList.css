@@ -1,21 +1,26 @@
-ul {
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/* font-family: 'Roboto', sans-serif; */
+/* font-family: 'Rubik', sans-serif; */
+.listaentera {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: rgb(255, 255, 255);
+  background-color: #0C3F75;
   margin-left: -32px;
   margin-right: -16px;
   padding-right: 150px;
+  height: 60px;
 }
 
 .lista {
   float: left;
+  height: 100%;
 }
 
 .lista a{
   display: block;
-  color: rgb(95, 95, 95);
+  color: rgb(255, 255, 255);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -23,23 +28,36 @@ ul {
 }
 .tituloLista {
   display: block;
-  color: rgb(95, 95, 95);
+  color: rgb(255, 255, 255);
   padding: 10px 16px;
   font-size: 23px;
   text-align: center;
 }
 
-.lista a:hover:not(.active) {
-  background-color: rgb(49, 180, 231);
+.lista a:hover:not(.active){
+  background-color: #0D1D2E;
+  height: 100%;
 }
 
 .navActive {
-  background-color: rgb(49, 180, 231);
+  background-color: #0D1D2E;
 }
 .fecha{
   display: block;
-  color: rgb(95, 95, 95);
+  color: rgb(255, 255, 255);
   text-align: center;
   padding: 14px 16px;
   font-size: 23px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+}
+.lista h5{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+}
+/* .lista h5:hover{
+  color: #0D1D2E;
+} */
+.divnav{
+  
 }
