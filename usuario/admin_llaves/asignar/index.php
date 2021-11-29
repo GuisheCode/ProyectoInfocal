@@ -2,6 +2,13 @@
 require('../../../includes/config.php');
 require_once '../../../includes/Crud.php';
 require('../../../includes/traducirFecha.php');
+$hora = date('Gis');
+$fechaHoy = date('Ymd');
+// traduccion de mes y dia actual
+$diaIngles = date('l');
+$mesIngles = date('F');
+$dia = traducirDia($diaIngles);
+$mes = traducirMes($mesIngles);
 // Si no ha iniciado sesion, lo redirige ala ventana login
 if (!$user->is_logged_in()) {
     header('Location: ../../../login.php');
@@ -26,110 +33,179 @@ $title = 'Todas las clases';
 require('../../../layout/header.php');
 require('../../../layout/menu.php');
 
-$tablaClases = new Crud('clases');
-$datosClases = $tablaClases->get();
-$tablaMaterias = new Crud("materias");
-$tablaHorarios = new Crud("horarios");
-$tablaDocentes = new Crud("docentes");
-$tablaAulas = new Crud("aulas");
-$tablaCarreras = new Crud("carreras");
-$tablaRecursos = new Crud("recursos");
+$tablaUso = new Crud("uso_herramientas");
+$tablaPersonas = new Crud("personas");
+$tablaHerramientas = new Crud("herramientas");
+
+
 ?>
-<table id="tabla" class="table table-striped" style="width:100%">
+<div class="divnav">
+    <ul class="listaentera">
+        <li class="lista" style="float:left">
+            <h4 class="fecha"><?php echo $dia . ", " . date('d') . " de " . $mes . " de " . date('Y') ?></h4>
+        </li>
+        <li class="lista" style="float:right"><a href="administrar.php">
+                <h5>Administrar</h5>
+            </a></li>
+        <li class="lista navActive" style="float:right"><a href="index.php">
+                <h5>Reservas</h5>
+            </a></li>
+        <li class="lista" style="float:right">
+            <h5 class="tituloLista">Herramientas multimedia: </h5>
+        </li>
+    </ul>
+</div>
+<br>
+<br>
+<h4 class="tituloDocente" style="text-align:center">EQUIPOS EN USO</h4>
+<table id="tabla" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>
-            <th>Aula</th>
-            <th>Materia</th>
-            <th>Carrera</th>
-            <th>Docente</th>
-            <th>Horario</th>
-            <th>Fecha de inicio</th>
-            <th>Fecha de fin</th>
+            <th rowspan="2">Cod. Equipo</th>
+            <th rowspan="2">Descripción</th>
+            <th rowspan="2">Nombre</th>
+            <th colspan="2">ENTREGA</th>
+            <th colspan="2">DEVOLUCIÓN</th>
+        </tr>
+        <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Fecha</th>
+            <th>Hora</th>
         </tr>
     </thead>
     <tbody>
         <?php
-        foreach ($datosClases as $valorClase) {
-            $datosMaterias = $tablaMaterias->where("idMateria", "=", $valorClase['idMateria'])->get();
-            $datosCarreras = $tablaCarreras->where("idCarrera", "=", $valorClase['idCarrera'])->get();
-            $datosDocentes = $tablaDocentes->where("idDocente", "=", $valorClase['idDocente'])->get();
-            $datosAulas = $tablaAulas->where("idAula", "=", $valorClase['idAula'])->get();
-            foreach ($datosMaterias as $valorMateria) {
-                foreach ($datosCarreras as $valorCarrera) {
-                    foreach ($datosDocentes as $valorDocente) {
-                        foreach ($datosAulas as $valorAula) {
-                            $datosHorarios = $tablaHorarios->where("idMateria", "=", $valorMateria['idMateria'])->get();
+
         ?>
         <tr>
-            <td><?php echo $valorAula['aula']; ?></td>
-            <td><?php echo $valorMateria['materia']; ?></td>
-            <td><?php echo $valorCarrera['carrera']; ?></td>
-            <td><?php echo $valorDocente['nombre']; ?></td>
-            <td>
-            <?php foreach ($datosHorarios as $valorHorario) { if ($valorHorario['Lunes'] == 1) {
-                                        echo "Lun. ";
-                                    }
-                                    if ($valorHorario['Martes'] == 1) {
-                                        echo "Mar. ";
-                                    }
-                                    if ($valorHorario['Miercoles'] == 1) {
-                                        echo "Mie. ";
-                                    }
-                                    if ($valorHorario['Jueves'] == 1) {
-                                        echo "Jue. ";
-                                    }
-                                    if ($valorHorario['Viernes'] == 1) {
-                                        echo "Vie. ";
-                                    }
-                                    if ($valorHorario['Sabado'] == 1) {
-                                        echo "Sab. ";
-                                    }
-                                    echo $valorHorario['horaInicio'] . " a " . $valorHorario['horaFin'] . " ";
-                                     }
-                                    ?></td>
-            <td><?php echo $valorMateria['fechaInicio']; ?></td>
-            <td><?php echo $valorMateria['fechaFin']; ?></td>
+            <td><?php  ?></td>
+            <td><?php  ?></td>
+            <td><?php  ?></td>
+            <td><?php  ?></td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
         </tr>
-<?php }
-                           
-                        }
-                    }
+        <?php
+
+        ?>
+    </tbody>
+    <!-- <tfoot>
+    <tr>
+            <th rowspan="2">Cod. Equipo</th>
+            <th rowspan="2">Descripción</th>
+            <th colspan="2">ENTREGA</th>
+            <th colspan="2">DEVOLUCIÓN</th>
+        </tr>
+        <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+        </tr>
+    </tfoot> -->
+</table>
+<br><br>
+<h4 class="tituloDocente" style="text-align:center">RESERVAS</h4>
+<table id="tabla" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th rowspan="2">Cod. Equipo</th>
+            <th rowspan="2">Descripción</th>
+            <th rowspan="2">Nombre</th>
+            <th colspan="2">RESERVADO</th>
+        </tr>
+        <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $datosUso = $tablaUso->where("reservado", "=", "si")->get();
+        foreach ($datosUso as $valorUso) {
+            $datosPersonas = $tablaPersonas->where("id_persona", "=", $valorUso['id_persona'])->get();
+            $datosHerramientas = $tablaHerramientas->where("id_equipo", "=", $valorUso['id_equipo'])->get();
+            foreach ($datosPersonas as $valorPersona) {
+                foreach ($datosHerramientas as $valorHerramienta) {
+        ?>
+                    <tr>
+                        <td><?php echo $valorHerramienta['id_equipo']; ?></td>
+                        <td><?php echo $valorHerramienta['equipo']; ?></td>
+                        <td><?php echo $valorPersona['nombre']." ".$valorPersona['apellidos']; ?></td>
+                        <td><?php echo $valorUso['fechaReserva']; ?></td>
+                        <td><?php echo $valorUso['horaReserva']; ?></td>
+                    </tr>
+        <?php
                 }
             }
-
-?>
+        }
+        ?>
     </tbody>
-    <tfoot>
-        <tr>
-            <th>Aula</th>
-            <th>Materia</th>
-            <th>Carrera</th>
-            <th>Docente</th>
-            <th>Horario</th>
-            <th>Fechas</th>
+    <!-- <tfoot>
+    <tr>
+            <th rowspan="2">Cod. Equipo</th>
+            <th rowspan="2">Descripción</th>
+            <th colspan="2">ENTREGA</th>
+            <th colspan="2">DEVOLUCIÓN</th>
         </tr>
-    </tfoot>
+        <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+        </tr>
+    </tfoot> -->
 </table>
-<?php
-$datosClases1 = $tablaClases->get();
-$tablaMaterias1 = new Crud("materias");
+<br><br>
+<h4 class="tituloDocente" style="text-align:center">RESERVAR EQUIPO</h4>
 
-foreach ($datosClases1 as $key) {
-    $datosMaterias1 = $tablaMaterias1->where("idMateria", "=", $key['idMateria'])->get();
+<div class="container">
+    <form action="reserva.php" method="post" autocomplete="off">
+        <div class="row">
+            <div class="col-4">
+                <label for="persona" class="form-label">Reservar para:</label>
+                <input required class="form-control" list="personal" name="personal" id="persona">
+                <datalist id="personal">
+                    <?php
+                    $datosPersonas = $tablaPersonas->get();
+                    foreach ($datosPersonas as $valorPersona) {
+                        echo "<option value='" . "Cod:" . $valorPersona['id_persona'] . " - " . $valorPersona['nombre'] . " " . $valorPersona['apellidos'] . "'>";
+                    }
+                    ?>
+                </datalist>
+            </div>
+            <div class="col-4">
+                <label for="equipos" class="form-label">Equipo:</label>
+                <input required class="form-control" list="equipo" name="equipo" id="equipos">
+                <datalist id="equipo">
+                    <?php
+                    $datosHerramientas2 = $tablaHerramientas->where("ocupado", "=", "no")->get();
+                    foreach ($datosHerramientas2 as $valorHerramienta) {
+                        echo "<option value='" . "Cod:" . $valorHerramienta['id_equipo'] . " - " . $valorHerramienta['equipo'] . "'>";
+                    }
+                    ?>
+                </datalist>
+            </div>
+            <div class="col-2">
+                <label for="fecha" class="form-label">Fecha</label>
+                <input required class="form-control" type="date" id="fecha" name="fecha">
+            </div>
+            <div class="col-2">
+                <label for="hora" class="form-label">Hora</label>
+                <input required class="form-control" type="time" id="hora" name="hora">
+            </div>
 
-    foreach ($datosMaterias1 as $valorMateria) {
-?>
+        </div>
+        <div class="row text-center">
+            <div class="col-12">
+                <input type="submit" value="Guardar" class="btn btn-primary">
+            </div>
+        </div>
+    </form>
+</div>
 
-        <?php echo $key['idClase']; ?>
-        <?php echo $valorMateria['materia']; ?>
-        <?php echo $valorMateria['materia']; ?>
-
-<?php
-
-
-    }
-}
-?>
 <?php
 //incluimos header template
 require('../../../layout/footer.php');

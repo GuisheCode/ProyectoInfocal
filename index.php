@@ -44,6 +44,9 @@ $title = 'Infocal';
 //incluimos header template
 require('layout/header.php'); 
 ?>
+<div class="max-auto">
+<div class="card text-center mx-auto" style="width: 40%; height:300px;margin-top:50px;">
+<div class="card-body">
 	    <div class="forma">
 			<form role="form" method="post" action="" autocomplete="off">
 				<h2 class="titulo">Iniciar sesión</h2>
@@ -83,7 +86,7 @@ require('layout/header.php');
 				<div class="form-group">
 					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="Nombre de Usuario" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['username'], ENT_QUOTES); } ?>" tabindex="1">
 				</div>
-
+				<br>
 				<div class="form-group">
 					<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Contraseña" tabindex="3">
 				</div>
@@ -94,7 +97,7 @@ require('layout/header.php');
 					<input type="submit" name="submit" value="Ingresar" class="btn btn-primary btn-block btn-lg" tabindex="5">
 			</form>
 		</div>
-
+		</div></div></div>
 <?php 
 //incluimos header template
 require('layout/footer.php'); 
