@@ -8,7 +8,7 @@ $hora = date('Gis');
         <i class='bx bx-menu' id="header-toggle"></i>
     </div>
     <nav class="navi">
-        <div class="logo">Administración de llaves de aulas y herramientas multimedia</div>
+        <div class="logo"><h3>SALA DE DOCENTES</h3></div>
         <div class="nav-items">
             <li><a href="../router.php">Inicio</a></li>
             <!-- <li><a href="horario/manana.php"><h5>Mañana</h5></a></li>

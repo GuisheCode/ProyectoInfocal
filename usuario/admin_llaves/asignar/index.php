@@ -58,37 +58,43 @@ $tablaHerramientas = new Crud("herramientas");
 <br>
 <br>
 <h4 class="tituloDocente" style="text-align:center">EQUIPOS EN USO</h4>
-<table id="tabla" class="table table-striped table-bordered" style="width:100%">
+<table id="tabla_clases" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>
-            <th rowspan="2">Cod. Equipo</th>
-            <th rowspan="2">Descripción</th>
-            <th rowspan="2">Nombre</th>
-            <th colspan="2">ENTREGA</th>
-            <th colspan="2">DEVOLUCIÓN</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE" class="text-center align-middle" rowspan="2">Cod. Equipo</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE" class="text-center align-middle" rowspan="2">Descripción</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE" class="text-center align-middle" rowspan="2">Nombre</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE" class="text-center align-middle" colspan="2">ENTREGA</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE" class="text-center align-middle" rowspan="2">Devolución</th>
+
         </tr>
         <tr>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Fecha</th>
-            <th>Hora</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE">Fecha</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE">Hora</th>
+
         </tr>
     </thead>
     <tbody>
         <?php
-
+        $datosEnUso = $tablaUso->where("estado_activo", "=", "si")->get();
+        foreach ($datosEnUso as $valorEnUso) {
+            $datosPersonas = $tablaPersonas->where("id_persona", "=", $valorEnUso['id_persona'])->get();
+            $datosHerramientas = $tablaHerramientas->where("id_equipo", "=", $valorEnUso['id_equipo'])->get();
+            foreach ($datosPersonas as $valorPersona) {
+                foreach ($datosHerramientas as $valorHerramienta) {
         ?>
-        <tr>
-            <td><?php  ?></td>
-            <td><?php  ?></td>
-            <td><?php  ?></td>
-            <td><?php  ?></td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-        </tr>
+                    <tr>
+                        <td><?php echo $valorHerramienta['id_equipo']; ?></td>
+                        <td><?php echo $valorHerramienta['equipo']; ?></td>
+                        <td><?php echo $valorPersona['nombre'] . " " . $valorPersona['apellidos']; ?></td>
+                        <td><?php echo $valorEnUso['fechaEntrega']; ?></td>
+                        <td><?php echo $valorEnUso['horaEntrega']; ?></td>
+                        <td><button class="btn btn-danger" type="button" id="abrirModal3" onclick="id_equipo_devolucion(<?php echo $valorEnUso['id_uso']; ?>)">Devolución</button> </td>
+                    </tr>
         <?php
-
+                }
+            }
+        }
         ?>
     </tbody>
     <!-- <tfoot>
@@ -108,17 +114,18 @@ $tablaHerramientas = new Crud("herramientas");
 </table>
 <br><br>
 <h4 class="tituloDocente" style="text-align:center">RESERVAS</h4>
-<table id="tabla" class="table table-striped table-bordered" style="width:100%">
+<table id="tabla_actual" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>
-            <th rowspan="2">Cod. Equipo</th>
-            <th rowspan="2">Descripción</th>
-            <th rowspan="2">Nombre</th>
-            <th colspan="2">RESERVADO</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE" class="text-center align-middle" rowspan="2">Cod. Equipo</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE" class="text-center align-middle" rowspan="2">Descripción</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE" class="text-center align-middle" rowspan="2">Nombre</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE" class="text-center align-middle" colspan="2">RESERVADO</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE" class="text-center align-middle" rowspan="2">Salida</th>
         </tr>
         <tr>
-            <th>Fecha</th>
-            <th>Hora</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE">Fecha</th>
+            <th style="background-color: #1B1F3B; color:#E1F2FE">Hora</th>
         </tr>
     </thead>
     <tbody>
@@ -133,9 +140,10 @@ $tablaHerramientas = new Crud("herramientas");
                     <tr>
                         <td><?php echo $valorHerramienta['id_equipo']; ?></td>
                         <td><?php echo $valorHerramienta['equipo']; ?></td>
-                        <td><?php echo $valorPersona['nombre']." ".$valorPersona['apellidos']; ?></td>
+                        <td><?php echo $valorPersona['nombre'] . " " . $valorPersona['apellidos']; ?></td>
                         <td><?php echo $valorUso['fechaReserva']; ?></td>
                         <td><?php echo $valorUso['horaReserva']; ?></td>
+                        <td><button type="button" class="btn btn-danger" type="button" id="abrirModal2" onclick="capturar_id_uso(<?php echo $valorUso['id_uso']; ?>)">Salida</button></td>
                     </tr>
         <?php
                 }
@@ -204,6 +212,46 @@ $tablaHerramientas = new Crud("herramientas");
             </div>
         </div>
     </form>
+</div>
+
+
+<div class="modal-container2" id="modal-container2">
+    <div class="modal-content2">
+        <form>
+            <h5 class="tituloModal">Confirmar salida de herramienta</h5>
+            <div class="botones">
+                <button type="submit" id="quitarRecurso2">Si</button>
+                <button type="submit" id="cerrarModal2">No</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Recibir llave - tarea realizada -->
+<div class="modal-container-success2" id="modal-container-success2">
+    <div class="modal-success2" id="modal-success2">
+        <h5 id="respuesta2"></h5>
+    </div>
+</div>
+
+
+
+<!-- Confirmar devolucion de equipo -->
+<div class="modal-container3" id="modal-container3">
+    <div class="modal-content3">
+        <form>
+            <h5 class="tituloModal">Confirmar la devolución de equipo</h5>
+            <div class="botones">
+                <button type="submit" id="quitarRecurso3">Si</button>
+                <button type="submit" id="cerrarModal3">No</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Devolucion de equipo - tarea realizada -->
+<div class="modal-container-success3" id="modal-container-success3">
+    <div class="modal-success3" id="modal-success3">
+        <h5 id="respuesta3"></h5>
+    </div>
 </div>
 
 <?php

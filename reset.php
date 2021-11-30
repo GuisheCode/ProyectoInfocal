@@ -58,7 +58,7 @@ if (isset($_POST['submit'])){
 			$mail->send();
 
 			//redirect to index page
-			header('Location: login.php?action=reset');
+			header('Location: index.php?action=reset');
 			exit;
 
 		//else catch the exception and show the error.

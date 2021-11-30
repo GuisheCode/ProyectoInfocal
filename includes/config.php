@@ -13,8 +13,8 @@ define('DBPASS','');
 define('DBNAME','infocal4');
 
 // Direccion de la app - PHP MAILER
-define('DIR','http://domain.com/');
-define('SITEEMAIL','noreply@domain.com');
+define('DIR','http://localhost/proyectoinfocal/');
+define('SITEEMAIL','proyectoinfocal@programacion.com');
 
 try {
 

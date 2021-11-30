@@ -9,16 +9,16 @@ $active = trim($_GET['y']);
 if (is_numeric($memberID) && !empty($active)) {
 
 	//update users record set the active column to Yes where the memberID and active value match the ones provided in the array
-	$stmt = $db->prepare("UPDATE usuarios SET active = 'Yes' WHERE memberID = :memberID AND active = :active");
+	$stmt = $db->prepare("UPDATE usuarios SET active = 'Yes' WHERE idUsuario = :idUsuario AND active = :active");
 	$stmt->execute(array(
-		':memberID' => $memberID,
+		':idUsuario' => $memberID,
 		':active' => $active
 	));
 
 	//if the row was updated redirect the user
 	if ($stmt->rowCount() == 1){
 		//redirect to login page
-		header('Location: login.php?action=active');
+		header('Location: index.php?action=active');
 		exit;
 
 	} else {

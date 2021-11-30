@@ -529,3 +529,198 @@ font-family: "Roboto", sans-serif;
 	text-align: center;
 	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
 }
+
+
+
+/* Ventana Modal para iniciar recurso */
+.modal-container2{
+	background-color: rgba(0, 0, 0, 0.3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+.modal-container2.show{
+	opacity: 1;
+	pointer-events: all;
+}
+.modal-content2{
+	background-color: white;
+	width: 400px;
+	height: 250px;
+	border-radius: 15px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+}
+#quitarRecurso2{
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 18px;
+	height: 35px;
+	width: 60px;
+	border-radius: 8px;
+	color: #ffffff;
+	background-color: #1184F7;
+	border: none;
+	
+}
+#cerrarModal2{
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 18px;
+	height: 35px;
+	width: 60px;
+	border-radius: 8px;
+	color: #ffffff;
+	background-color: #1184F7;
+	border: none;
+	
+}
+#cerrarModal2:hover {
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+	cursor: pointer;
+}
+#quitarRecurso2:hover {
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+	cursor: pointer;
+}
+#respuesta2 {
+	padding-top: 15px;
+	font-family: "Roboto", sans-serif;
+		font-weight: 300;
+		font-size: 22px;
+		color: rgb(0, 0, 0);
+}
+
+.modal-container-success2{
+	/* background-color: rgba(0, 0, 0, 0.3); */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+.modal-success2{
+	background-color: white;
+	width: 320px;
+	height: 180px;
+	border-radius: 15px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+}
+.modal-container-success2.show{
+	opacity: 1;
+	pointer-events: all;
+}
+
+
+/* Ventana Modal para devolucion de recurso */
+.modal-container3{
+	background-color: rgba(0, 0, 0, 0.3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+.modal-container3.show{
+	opacity: 1;
+	pointer-events: all;
+}
+.modal-content3{
+	background-color: white;
+	width: 400px;
+	height: 250px;
+	border-radius: 15px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+}
+#quitarRecurso3{
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 18px;
+	height: 35px;
+	width: 60px;
+	border-radius: 8px;
+	color: #ffffff;
+	background-color: #1184F7;
+	border: none;
+	
+}
+#cerrarModal3{
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	font-size: 18px;
+	height: 35px;
+	width: 60px;
+	border-radius: 8px;
+	color: #ffffff;
+	background-color: #1184F7;
+	border: none;
+	
+}
+#cerrarModal3:hover {
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+	cursor: pointer;
+}
+#quitarRecurso3:hover {
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+	cursor: pointer;
+}
+#respuesta3 {
+	padding-top: 15px;
+	font-family: "Roboto", sans-serif;
+		font-weight: 300;
+		font-size: 22px;
+		color: rgb(0, 0, 0);
+}
+
+.modal-container-success3{
+	/* background-color: rgba(0, 0, 0, 0.3); */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+.modal-success3{
+	background-color: white;
+	width: 320px;
+	height: 180px;
+	border-radius: 15px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	box-shadow: 0px 3px 15px rgba(0.4, 0, 0, 0.8);
+}
+.modal-container-success3.show{
+	opacity: 1;
+	pointer-events: all;
+}

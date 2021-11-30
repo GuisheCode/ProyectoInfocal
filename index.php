@@ -68,13 +68,13 @@ require('layout/header.php');
 					//comprobar 'action'
 					switch ($_GET['action']) {
 						case 'active':
-							echo "<h2 class='bg-success'>Your account is now active you may now log in.</h2>";
+							echo "<h6 class='bg-success'>Your account is now active you may now log in.</h6>";
 							break;
 						case 'reset':
-							echo "<h2 class='bg-success'>Please check your inbox for a reset link.</h2>";
+							echo "<h6 class='bg-success'>Please check your inbox for a reset link.</h6>";
 							break;
 						case 'resetAccount':
-							echo "<h2 class='bg-success'>Password changed, you may now login.</h2>";
+							echo "<h6 class='bg-success'>Password changed, you may now login.</h6>";
 							break;
 					}
 

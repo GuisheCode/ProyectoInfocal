@@ -49,7 +49,7 @@ require('../../../layout/menu.php');
                 <h5>Mañana</h5>
             </a></li>
         <li class="lista" style="float:right">
-            <h5 class="tituloLista">Turnos: </h5>
+            <h5 class="tituloLista">Cronograma de clases: </h5>
         </li>
     </ul>
 </div>

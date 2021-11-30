@@ -266,10 +266,114 @@ modal_container1.addEventListener('click', e=> {
 
 
 <script>
-    function capturar() 
-    {  
-        console.log("si captura");
-    }
+    let abrir2=document.getElementById('abrirModal2');
+    let modal_container2=document.getElementById('modal-container2');
+    let cerrar2= document.getElementById(cerrarModal2);
+    let modal_success2= document.getElementById('modal-container-success2');
+    
+   function capturar_id_uso(e)
+ {
+    id2 = e; 
+    //document.getElementById("valor").value=value;
+    console.log(id2)
+    modal_container2.classList.add('show');
+ }
+ $('#quitarRecurso2').on('click', function(e){
+     e.preventDefault();
+        let ruta ="id_uso="+id2;
+        $.ajax({
+            url:'../../../includes/salida_equipo.php',
+            type:'POST',
+            data: ruta,
+        })
+        .done(function (res) {
+            $('#respuesta2').html(res);
+            // $("#fila").load(" #fila");
+            modal_container2.classList.remove('show')
+            modal_success2.classList.add('show');
+            setTimeout(function(){ 
+                modal_success2.classList.remove('show');
+                // $("#modales").load(" #modales");
+                window.location.reload();
+            }, 1500);
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function () {
+            console.log("complete")
+        });
+        
+    });
+//     cerrar.addEventListener('click',()=>{
+//     modal_container.classList.remove('show');
+// });
+$('#cerrarModal2').on('click', function(e){
+        e.preventDefault();
+        modal_container2.classList.remove('show');
+    })
+$('#modalContainer2').on('click',function(){
+    modal_container2.classList.remove('show');
+})
+modal_container2.addEventListener('click', e=> {
+        if (e.target === modal_container2) modal_container2.classList.remove('show');; 
+    });
+</script>
+
+<!-- confirmar la devolucion de equipo -->
+<script>
+    let abrir3=document.getElementById('abrirModal3');
+    let modal_container3=document.getElementById('modal-container3');
+    let cerrar3= document.getElementById(cerrarModal3);
+    let modal_success3= document.getElementById('modal-container-success3');
+    
+   function id_equipo_devolucion(e)
+ {
+    id_equipo3 = e; 
+    //document.getElementById("valor").value=value;
+    console.log(id_equipo3)
+    modal_container3.classList.add('show');
+ }
+ $('#quitarRecurso3').on('click', function(e){
+     e.preventDefault();
+        let ruta ="id_uso="+id_equipo3;
+        $.ajax({
+            url:'../../../includes/entrada_equipo.php',
+            type:'POST',
+            data: ruta,
+        })
+        .done(function (res) {
+            $('#respuesta3').html(res);
+            // $("#fila").load(" #fila");
+            modal_container3.classList.remove('show')
+            modal_success3.classList.add('show');
+            setTimeout(function(){ 
+                modal_success3.classList.remove('show');
+                // $("#modales").load(" #modales");
+                window.location.reload();
+            }, 1500);
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function () {
+            console.log("complete")
+        });
+        
+    });
+//     cerrar.addEventListener('click',()=>{
+//     modal_container.classList.remove('show');
+// });
+$('#cerrarModal3').on('click', function(e){
+        e.preventDefault();
+        modal_container3.classList.remove('show');
+    })
+$('#modalContainer3').on('click',function(){
+    modal_container3.classList.remove('show');
+})
+modal_container3.addEventListener('click', e=> {
+        if (e.target === modal_container3) modal_container3.classList.remove('show');; 
+    });
 </script>
 </body>
 </html>

@@ -41,7 +41,7 @@ require('../../../layout/menu.php');
     <li class="lista" style="float:right"><a href="noche.php"><h5>Noche</h5></a></li>
     <li  class="lista" style="float:right"><a href="tarde.php"><h5>Tarde</h5></a></li>
     <li  class="lista navActive" style="float:right"><a href="manana.php"><h5>Mañana</h5></a></li>
-    <li  class="lista" style="float:right"><h5 class="tituloLista">Turnos: </h5></li>
+    <li  class="lista" style="float:right"><h5 class="tituloLista">Cronograma de clases: </h5></li>
 </ul>
 </div>
 <br><br>

@@ -14,8 +14,8 @@ class Mail extends PHPMailer
     public $Host     = 'smtp.mailtrap.io';
     public $Mailer   = 'smtp';
     public $SMTPAuth = true;
-    public $Username = '97023999dfbb4d';
-    public $Password = '26ce9492a0c544';//if using Gmail use an app password more details here https://support.google.com/accounts/answer/185833?hl=en
+    public $Username = '7620f5b488d547';
+    public $Password = '77e2f6407e8953';//if using Gmail use an app password more details here https://support.google.com/accounts/answer/185833?hl=en
     //public $SMTPSecure = 'tls';
     public $WordWrap = 75;
 
